@@ -11,7 +11,6 @@
     <Folder Include="Entities\" />
     <Folder Include="Events\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="ValueObjets\" />
   </ItemGroup>
 
 </Project>
