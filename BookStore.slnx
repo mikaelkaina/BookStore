@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BookStore.Domain/BookStore.Domain.csproj" Id="23f00530-3ba4-4a24-b9ec-1b4a5813ccaf" />
+  </Folder>
+</Solution>
