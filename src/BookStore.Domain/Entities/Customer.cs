@@ -57,7 +57,7 @@ public sealed class Customer : Entity
             firstName.Trim(), lastName.Trim(), emailResult.Value, phone, document, birthDate));
     }
 
-    public Result AddAddress(Address address) { _addresses.Add(address); SetUpdateAt(); return Result.Success(); }
+    public Result AddAddress(Address address) { _addresses.Add(address); SetUpdatedAt(); return Result.Success(); }
 
     public Result UpdateProfile(string firstName, string lastName, string? phone)
     {
@@ -67,12 +67,12 @@ public sealed class Customer : Entity
         FirstName = firstName.Trim();
         LastName = lastName.Trim();
         Phone = phone;
-        SetUpdateAt();
+        SetUpdatedAt();
         return Result.Success();
     }
 
-    public void PromoteToAdmin() { Role = CustomerRole.Admin; SetUpdateAt(); }
-    public void Deactivate() { IsActive = false; SetUpdateAt(); }
+    public void PromoteToAdmin() { Role = CustomerRole.Admin; SetUpdatedAt(); }
+    public void Deactivate() { IsActive = false; SetUpdatedAt(); }
 
     private static bool IsValidCpf(string cpf)
     {

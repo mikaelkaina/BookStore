@@ -6,7 +6,7 @@ public abstract class Entity
 
     public Guid Id { get; protected set; } =  Guid.NewGuid();
     public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
-    public DateTime? UpdateAt { get; protected set; }
+    public DateTime? UpdatedAt { get; protected set; }
 
    public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents.AsReadOnly();
 
@@ -16,6 +16,6 @@ public abstract class Entity
     public void ClearDomainEvents()
         => domainEvents.Clear();
 
-    protected void SetUpdateAt()
-        => UpdateAt = DateTime.UtcNow;
+    protected void SetUpdatedAt()
+        => UpdatedAt = DateTime.UtcNow;
 }

@@ -99,7 +99,7 @@ public sealed class Order : Entity
             return Result.Failure(OrderErrors.EmptyOrder(Id));
 
         Status = OrderStatus.PaymentConfirmed;
-        SetUpdateAt();
+        SetUpdatedAt();
         RaiseDomainEvent(new OrderPaymentConfirmedEvent(Id, CustomerId, Total));
         return Result.Success();
     }
@@ -110,7 +110,7 @@ public sealed class Order : Entity
             return Result.Failure(OrderErrors.InvalidStatusTransition(Id, Status, OrderStatus.Processing));
 
         Status = OrderStatus.Processing;
-        SetUpdateAt();
+        SetUpdatedAt();
         return Result.Success();
     }
 
@@ -121,7 +121,7 @@ public sealed class Order : Entity
 
         Status = OrderStatus.Shipped;
         ShippedAt = DateTime.UtcNow;
-        SetUpdateAt();
+        SetUpdatedAt();
         RaiseDomainEvent(new OrderShippedEvent(Id, CustomerId, ShippingAddress));
         return Result.Success();
     }
@@ -133,7 +133,7 @@ public sealed class Order : Entity
 
         Status = OrderStatus.Delivered;
         DeliveredeAt = DateTime.UtcNow;
-        SetUpdateAt();
+        SetUpdatedAt();
         return Result.Success();
     }
 
@@ -145,7 +145,7 @@ public sealed class Order : Entity
         Status = OrderStatus.Cancelled;
         CancelledAt = DateTime.UtcNow;
         Notes = reason;
-        SetUpdateAt();
+        SetUpdatedAt();
         RaiseDomainEvent(new OrderCancelledEvent(Id, CustomerId, reason));
         return Result.Success();
     }
@@ -173,7 +173,7 @@ public sealed class Order : Entity
     {
         SubTotal = _items.Aggregate(Money.Zero(), (acc, item) => acc.Add(item.TotalPrice));
         Total = SubTotal.Add(ShippingCost).Subtract(Discount);
-        SetUpdateAt();
+        SetUpdatedAt();
     }
 
     private static string GenerateOrderNumber() =>

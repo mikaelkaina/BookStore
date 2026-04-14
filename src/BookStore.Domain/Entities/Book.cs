@@ -84,7 +84,7 @@ public sealed class Book : Entity
         
         var oldPrice = Price;
         Price = priceResult.Value;
-        SetUpdateAt();
+        SetUpdatedAt();
         RaiseDomainEvent(new BookPriceChangedEvent(Id, oldPrice, Price));
         return Result.Success();
     }
@@ -94,7 +94,7 @@ public sealed class Book : Entity
         if (quantity <= 0)
             return Result.Failure(Error.Validation(nameof(quantity), "Quantity must be greater than zero."));
         StockQuantity += quantity;
-        SetUpdateAt();
+        SetUpdatedAt();
         return Result.Success();
     }
 
@@ -107,7 +107,7 @@ public sealed class Book : Entity
             return Result.Failure(BookErrors.InsufficientStock(Id, quantity, StockQuantity));
 
         StockQuantity -= quantity;
-        SetUpdateAt();
+        SetUpdatedAt();
 
         if(StockQuantity == 0)
             RaiseDomainEvent(new BookOutOfStockEvent(Id, Title));
@@ -116,8 +116,8 @@ public sealed class Book : Entity
     }
 
     public bool HasStock(int quantity = 1) => StockQuantity >= quantity;
-    public void Deactivate() { IsActive = false; SetUpdateAt(); }
-    public void Activate() { IsActive = true; SetUpdateAt(); }
+    public void Deactivate() { IsActive = false; SetUpdatedAt(); }
+    public void Activate() { IsActive = true; SetUpdatedAt(); }
 
 }
 public static class BookErrors

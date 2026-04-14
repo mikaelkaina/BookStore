@@ -42,12 +42,12 @@ public sealed class Category : Entity
         Name = name.Trim();
         Slug = GenerateSlug(name);
         Description = description?.Trim();
-        SetUpdateAt();
+        SetUpdatedAt();
         return Result.Success();
     }
 
-    public void Deacttivate() { IsActvive = false; SetUpdateAt(); }
-    public void Activate() { IsActvive = true; SetUpdateAt(); }
+    public void Deacttivate() { IsActvive = false; SetUpdatedAt(); }
+    public void Activate() { IsActvive = true; SetUpdatedAt(); }
 
     private static string GenerateSlug(string name) =>
         name.Trim().ToLowerInvariant()
