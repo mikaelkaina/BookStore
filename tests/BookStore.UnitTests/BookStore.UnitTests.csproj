@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Entities\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
