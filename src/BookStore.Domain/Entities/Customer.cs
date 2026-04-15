@@ -6,11 +6,11 @@ namespace BookStore.Domain.Entities;
 
 public sealed class Customer : Entity
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public Email Email { get; private set; }
+    public string FirstName { get; private set; } = null!;
+    public string LastName { get; private set; } = null!;
+    public Email Email { get; private set; } = null!;
     public string? Phone { get; private set; }
-    public Cpf Document { get; private set; }
+    public Cpf Document { get; private set; } = null!;
     public DateOnly? BirthDate { get; private set; }
     public CustomerRole Role { get; private set; }
     public bool IsActive { get; private set; }

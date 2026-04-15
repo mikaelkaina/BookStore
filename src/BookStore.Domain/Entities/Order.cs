@@ -7,14 +7,14 @@ namespace BookStore.Domain.Entities;
 
 public sealed class Order : Entity
 {
-    public string OrderNumber { get; private set; }
+    public string OrderNumber { get; private set; } = null!;
     public Guid CustomerId { get; private set; }
     public Customer Customer { get; set; } = null!;
     public OrderStatus Status { get; private set; }
-    public Money SubTotal { get; private set; }
-    public Money ShippingCost { get; private set; }
-    public Money Discount { get; private set; }
-    public Money Total { get; private set; }
+    public Money SubTotal { get; private set; } = null!;
+    public Money ShippingCost { get; private set; } = null!;
+    public Money Discount { get; private set; } = null!;
+    public Money Total { get; private set; } = null!;
     public Address ShippingAddress { get; private set; } = null!;
     public string? Notes { get; private set; }
     public DateTime? ShippedAt { get; private set; }
@@ -184,10 +184,10 @@ public sealed class OrderItem : Entity
 {
     public Guid OrderId { get; private set; }
     public Guid BookId { get; private set; }
-    public string BookTitle { get; private set; }
-    public Money UnitPrice { get; private set; }
+    public string BookTitle { get; private set; } = null!;
+    public Money UnitPrice { get; private set; } = null!;
     public int Quantity { get; private set; }
-    public Money TotalPrice { get; private set; }
+    public Money TotalPrice { get; private set; } = null!;
 
     private OrderItem() { }
 

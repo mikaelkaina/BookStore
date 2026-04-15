@@ -7,25 +7,25 @@ namespace BookStore.Domain.Entities;
 
 public sealed class Book : Entity
 {
-    public string Title { get; private set; }
-    public string Author { get; private set; }
+    public string Title { get; private set; } = null!;
+    public string Author { get; private set; } = null!;
     public string? Description { get; private set; }
-    public Isbn Isbn { get; private set; }
-    public Money Price { get; private set; }
+    public Isbn Isbn { get; private set; } = null!;
+    public Money Price { get; private set; } = null!;
     public int StockQuantity { get; private set; }
     public int PageCount { get; private set; }
     public string? CoverImageUrl { get; private set; }
-    public string Publisher { get; private set; }
+    public string Publisher { get; private set; } = null!;
     public DateOnly PublishedDate { get; private set; }
     public BookFormat Format { get; private set; }
-    public string Language { get; private set; }
+    public string Language { get; private set; } = null!;
     public bool IsActive { get; private set; }
     public Guid CategoryId { get; private set; }
     public Category Category { get; private set; } = null!;
 
     private Book() { }
     private Book(string title, string author, string? description, Isbn isbn, Money price, int stockQuantity, int pageCount,
-        string coverImageUrl, string publisher, DateOnly publishedDate, BookFormat format, string language, Guid categoryId)
+        string? coverImageUrl, string publisher, DateOnly publishedDate, BookFormat format, string language, Guid categoryId)
     {
         Title = title;
         Author = author;

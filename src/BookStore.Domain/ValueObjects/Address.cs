@@ -61,7 +61,7 @@ public sealed class Address : ValueObject
     {
         yield return Street;
         yield return Number;
-        yield return Complement;
+        yield return Complement ?? string.Empty;
         yield return Neighborhood;
         yield return City;
         yield return State;

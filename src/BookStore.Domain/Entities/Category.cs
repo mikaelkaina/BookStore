@@ -4,8 +4,8 @@ namespace BookStore.Domain.Entities;
 
 public sealed class Category : Entity
 {
-    public string Name { get; private set; }
-    public string Slug { get; private set; }
+    public string Name { get; private set; } = null!;
+    public string Slug { get; private set; } = null!; 
     public string? Description { get; private set; }
     public bool IsActive { get; private set; }
 

@@ -94,11 +94,11 @@ public sealed class CartItem : Entity
 {
     public Guid CartId { get; private set; }
     public Guid BookId { get; private set; }
-    public string BookTitle { get; private set; }
+    public string BookTitle { get; private set; } = null!;
     public string? BookCoverUrl { get; private set; }
-    public Money UnitPrice { get; private set; }
+    public Money UnitPrice { get; private set; } = null!;
     public int Quantity { get; private set; }
-    public Money TotalPrice { get; private set; }
+    public Money TotalPrice { get; private set; } = null!;
 
     private CartItem() { }
 
