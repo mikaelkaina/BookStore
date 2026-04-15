@@ -21,7 +21,7 @@ public sealed class Customer : Entity
     private readonly List<Order> _oders = [];
     public IReadOnlyCollection<Order> Orders => _oders.AsReadOnly();
 
-    public string FullNmae => $"{FirstName} {LastName}";
+    public string FullName => $"{FirstName} {LastName}";
 
     private Customer() { }
 

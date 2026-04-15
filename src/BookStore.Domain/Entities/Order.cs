@@ -18,7 +18,7 @@ public sealed class Order : Entity
     public Address ShippingAddress { get; private set; } = null!;
     public string? Notes { get; private set; }
     public DateTime? ShippedAt { get; private set; }
-    public DateTime? DeliveredeAt { get; private set; }
+    public DateTime? DeliveredAt { get; private set; }
     public DateTime? CancelledAt { get; private set; }
 
     private readonly List<OrderItem> _items = [];
@@ -132,7 +132,7 @@ public sealed class Order : Entity
             return Result.Failure(OrderErrors.InvalidStatusTransition(Id, Status, OrderStatus.Delivered));
 
         Status = OrderStatus.Delivered;
-        DeliveredeAt = DateTime.UtcNow;
+        DeliveredAt = DateTime.UtcNow;
         SetUpdatedAt();
         return Result.Success();
     }

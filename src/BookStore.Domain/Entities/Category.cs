@@ -7,7 +7,7 @@ public sealed class Category : Entity
     public string Name { get; private set; }
     public string Slug { get; private set; }
     public string? Description { get; private set; }
-    public bool IsActvive { get; private set; }
+    public bool IsActive { get; private set; }
 
     private readonly List<Book> _books = [];
     public IReadOnlyCollection<Book> Books => _books.AsReadOnly();
@@ -19,7 +19,7 @@ public sealed class Category : Entity
         Name = name;
         Slug = slug;
         Description = description;
-        IsActvive = true;
+        IsActive = true;
     }
 
     public static Result<Category> Create(string name, string? description = null)
@@ -46,8 +46,8 @@ public sealed class Category : Entity
         return Result.Success();
     }
 
-    public void Deacttivate() { IsActvive = false; SetUpdatedAt(); }
-    public void Activate() { IsActvive = true; SetUpdatedAt(); }
+    public void Deactivate() { IsActive = false; SetUpdatedAt(); }
+    public void Activate() { IsActive = true; SetUpdatedAt(); }
 
     private static string GenerateSlug(string name) =>
         name.Trim().ToLowerInvariant()
