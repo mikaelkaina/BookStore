@@ -2,8 +2,6 @@
 using BookStore.Domain.Entities;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Builders;
-
 public class CustomerBuilder
 {
     private readonly Faker _faker = new("pt_BR");
@@ -12,7 +10,7 @@ public class CustomerBuilder
     private string _lastName;
     private string _email;
     private string? _phone;
-    private string? _document;
+    private string _document;
     private DateOnly? _birthDate;
 
     public CustomerBuilder()
@@ -21,7 +19,7 @@ public class CustomerBuilder
         _lastName = _faker.Name.LastName();
         _email = _faker.Internet.Email();
         _phone = _faker.Phone.PhoneNumber("(##) #####-####");
-        _document = null;
+        _document = "12345678909";
         _birthDate = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18)));
     }
 
@@ -31,10 +29,25 @@ public class CustomerBuilder
     public CustomerBuilder WithPhone(string phone) { _phone = phone; return this; }
     public CustomerBuilder WithBirthDate(DateOnly birthDate) { _birthDate = birthDate; return this; }
 
+    public CustomerBuilder WithDocument(string document)
+    {
+        _document = document ?? "12345678909";
+        return this;
+    }
+
     public Customer Build()
     {
-        var result = Customer.Create(_firstName, _lastName, _email, _phone, _document, _birthDate);
+        var result = Customer.Create(
+            _firstName,
+            _lastName,
+            _email,
+            _phone,
+            _document,
+            _birthDate
+        );
+
         result.IsSuccess.Should().BeTrue("CustomerBuilder deve sempre gerar um cliente válido");
+
         return result.Value;
     }
 }

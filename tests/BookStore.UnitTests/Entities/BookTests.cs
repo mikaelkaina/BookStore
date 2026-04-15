@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.Entities;
+﻿using BookStore.Domain.Common;
+using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Events;
 using BookStore.UnitTests.Builders;
@@ -25,14 +26,6 @@ public class BookTests
 
         book.DomainEvents.Should().ContainSingle()
             .Which.Should().BeOfType<BookCreatedEvent>();
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void Create_WithEmptyTitle_ShouldFail(string title)
-    {
-        var result = new BookBuilder().WithTitle(title).Build();
     }
 
     [Fact]
@@ -186,23 +179,22 @@ internal static class BookTestHelper
 {
     private static readonly string ValidIsbn = "9780306406157";
     private static readonly Guid ValidCategoryId = Guid.NewGuid();
+    public static Result<Book> CreateWithTitle(string title) =>
+    Book.Create(title, "Autor", null, ValidIsbn, 50m, 10, 300,
+        null, "Editora", DateOnly.FromDateTime(DateTime.Now), BookFormat.Paperback,
+        "Português", ValidCategoryId);
 
-    public static dynamic CreateWithTitle(string title) =>
-        Book.Create(title, "Autor", null, ValidIsbn, 50m, 10, 300,
-            null, "Editora", DateOnly.FromDateTime(DateTime.Now), BookFormat.Paperback,
-            "Português", ValidCategoryId);
-
-    public static dynamic CreateWithPrice(decimal price) =>
+    public static Result<Book> CreateWithPrice(decimal price) =>
         Book.Create("Título", "Autor", null, ValidIsbn, price, 10, 300,
             null, "Editora", DateOnly.FromDateTime(DateTime.Now), BookFormat.Paperback,
             "Português", ValidCategoryId);
 
-    public static dynamic CreateWithStock(int stock) =>
+    public static Result<Book> CreateWithStock(int stock) =>
         Book.Create("Título", "Autor", null, ValidIsbn, 50m, stock, 300,
             null, "Editora", DateOnly.FromDateTime(DateTime.Now), BookFormat.Paperback,
             "Português", ValidCategoryId);
 
-    public static dynamic CreateWithIsbn(string isbn) =>
+    public static Result<Book> CreateWithIsbn(string isbn) =>
         Book.Create("Título", "Autor", null, isbn, 50m, 10, 300,
             null, "Editora", DateOnly.FromDateTime(DateTime.Now), BookFormat.Paperback,
             "Português", ValidCategoryId);

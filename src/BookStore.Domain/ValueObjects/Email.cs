@@ -19,10 +19,11 @@ public sealed class Email : ValueObject
         if (string.IsNullOrWhiteSpace(email))
             return Result.Failure<Email>(Error.Validation(nameof(Email), "Email is required"));
 
-        if (!EmailRegex.IsMatch(email))
+        var normalizedEmail = email.Trim().ToLowerInvariant();
+        if (!EmailRegex.IsMatch(normalizedEmail))
             return Result.Failure<Email>(Error.Validation(nameof(Email), "Email format is invalid"));
 
-        return Result.Success(new Email(email.Trim().ToLowerInvariant()));
+        return Result.Success(new Email(normalizedEmail));
     }
 
     public override string ToString() => Value;

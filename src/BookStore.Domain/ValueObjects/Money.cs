@@ -1,4 +1,5 @@
 ﻿using BookStore.Domain.Common;
+using System.Globalization;
 
 namespace BookStore.Domain.ValueObjects;
 
@@ -18,11 +19,14 @@ public sealed class Money : ValueObject
         if (amount < 0)
             return Result.Failure<Money>(Error.Validation(nameof(Amount), "Amount cannot be negative."));
         
-
-        if (string.IsNullOrWhiteSpace(currency) || currency.Length != 3)
+        if (string.IsNullOrWhiteSpace(currency))
             return Result.Failure<Money>(Error.Validation(nameof(Currency), "Currency cannot be empty."));
-        
-        return Result.Success(new Money(amount, currency));
+
+        var normalizedCurrency = currency.Trim().ToUpperInvariant();
+        if (normalizedCurrency.Length != 3)
+            return Result.Failure<Money>(Error.Validation(nameof(Currency), "Currency must have 3 characters."));
+
+        return Result.Success(new Money(amount, normalizedCurrency));
     }
 
     public static Money Zero(string currency = "BRL") => new Money(0, currency);
@@ -54,7 +58,8 @@ public sealed class Money : ValueObject
             throw new InvalidOperationException($"Cannot operate on different currencies: {Currency} and {other.Currency}.");
     }
 
-    public override string ToString() => $"{Amount:F2} {Currency}";
+    public override string ToString() =>
+    $"{Amount.ToString("F2", CultureInfo.InvariantCulture)} {Currency}";
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
