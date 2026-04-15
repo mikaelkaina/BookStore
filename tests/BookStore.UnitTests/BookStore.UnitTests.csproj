@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\" />
-    <Folder Include="ValueObjects\" />
   </ItemGroup>
 
   <ItemGroup>
