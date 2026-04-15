@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Common;
 using BookStore.Domain.Enums;
-using BookStore.Domain.ValueObjets;
+using BookStore.Domain.ValueObjects;
 
 namespace BookStore.Domain.Entities;
 

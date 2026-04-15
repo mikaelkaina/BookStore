@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/BookStore.Domain/BookStore.Domain.csproj" Id="23f00530-3ba4-4a24-b9ec-1b4a5813ccaf" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BookStore.UnitTests/BookStore.UnitTests.csproj" Id="a5e5f7b2-c8d2-4b4a-a969-641e6f50e6bc" />
+  </Folder>
 </Solution>

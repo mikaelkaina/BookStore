@@ -1,7 +1,7 @@
 ﻿using BookStore.Domain.Common;
 using System.Text.RegularExpressions;
 
-namespace BookStore.Domain.ValueObjets;
+namespace BookStore.Domain.ValueObjects;
 
 public sealed class Email : ValueObject
 {

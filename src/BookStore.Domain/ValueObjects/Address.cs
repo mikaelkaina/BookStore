@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Common;
 
-namespace BookStore.Domain.ValueObjets;
+namespace BookStore.Domain.ValueObjects;
 
 public sealed class Address : ValueObject
 {
@@ -67,6 +67,5 @@ public sealed class Address : ValueObject
         yield return State;
         yield return ZipCode;
         yield return Country;
-
     }
 }
