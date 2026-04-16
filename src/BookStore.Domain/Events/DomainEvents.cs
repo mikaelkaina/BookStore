@@ -33,7 +33,7 @@ public sealed record OrderPaymentConfirmedEvent(Guid OrderId, Guid CustomerId, M
     public DateTime OccurredAt {  get; } = DateTime.UtcNow;
 }
 
-public sealed record OrderShippedEvent(Guid OrderId, Guid CustomerId, Address ShippingAdress) : IDomainEvent
+public sealed record OrderShippedEvent(Guid OrderId, Guid CustomerId, Address ShippingAddress) : IDomainEvent
 {
     public Guid EventId { get; } = Guid.NewGuid();
     public DateTime OccurredAt {  get; } = DateTime.UtcNow;
