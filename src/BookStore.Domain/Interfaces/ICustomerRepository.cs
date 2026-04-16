@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BookStore.Domain.Entities;
+using BookStore.Domain.ValueObjects;
 
-namespace BookStore.Domain.Interfaces
+namespace BookStore.Domain.Interfaces;
+
+public interface ICustomerRepository : IRepository<Customer>
 {
-    internal interface ICustomerRepository
-    {
-    }
+    Task<Customer?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default);
+    Task<bool> EmailExistsAsync(Email email, Guid? excludeCustomerId = null, CancellationToken cancellationToken = default);
 }
