@@ -13,7 +13,7 @@ public sealed class Address : ValueObject
     public string ZipCode { get; }
     public string Country { get; }
 
-    public Address(string street, string number, string? complement, string neighborhood, string city, string state, string zipCode, string country)
+    private Address(string street, string number, string? complement, string neighborhood, string city, string state, string zipCode, string country)
     {
         Street = street;
         Number = number;
