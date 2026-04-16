@@ -2,19 +2,19 @@
 
 public abstract class Entity
 {
-    private readonly List<IDomainEvent> domainEvents = [];
+    private readonly List<IDomainEvent> _domainEvents = [];
 
-    public Guid Id { get; protected set; } =  Guid.NewGuid();
+    public Guid Id { get; protected set; } = Guid.CreateVersion7();
     public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; protected set; }
 
-   public IReadOnlyCollection<IDomainEvent> DomainEvents => domainEvents.AsReadOnly();
+   public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
    protected void RaiseDomainEvent(IDomainEvent domainEvent)
-        => domainEvents.Add(domainEvent);
+        => _domainEvents.Add(domainEvent);
 
     public void ClearDomainEvents()
-        => domainEvents.Clear();
+        => _domainEvents.Clear();
 
     protected void SetUpdatedAt()
         => UpdatedAt = DateTime.UtcNow;
