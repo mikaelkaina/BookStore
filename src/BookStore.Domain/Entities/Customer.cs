@@ -18,14 +18,14 @@ public sealed class Customer : Entity
     private readonly List<Address> _addresses = [];
     public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
-    private readonly List<Order> _oders = [];
-    public IReadOnlyCollection<Order> Orders => _oders.AsReadOnly();
+    private readonly List<Order> _orders = [];
+    public IReadOnlyCollection<Order> Orders => _orders.AsReadOnly();
 
     public string FullName => $"{FirstName} {LastName}";
 
     private Customer() { }
 
-    public Customer(string firstName, string lastName, Email email, string? phone, Cpf document, DateOnly? birthDate)
+    private Customer(string firstName, string lastName, Email email, string? phone, Cpf document, DateOnly? birthDate)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -75,7 +75,7 @@ public sealed class Customer : Entity
     public void Deactivate() { IsActive = false; SetUpdatedAt(); }
 }
 
-public static class CutomerErros
+public static class CustomerErrors
 {
     public static Error NotFound(Guid id) => Error.NotFound(nameof(Customer), id);
     public static Error EmailAlreadyExixts(string email) =>

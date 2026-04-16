@@ -73,7 +73,7 @@ public sealed class Order : Entity
             _items.Add(OrderItem.Create(Id, book.Id, book.Title, book.Price, quantity));
         }
 
-        RecalculateTotais();
+        RecalculateTotas();
         return Result.Success();
     }
 
@@ -86,7 +86,7 @@ public sealed class Order : Entity
         if (item is null) return Result.Failure(Error.NotFound("OrderItem", bookId));
        
         _items.Remove(item);
-        RecalculateTotais();
+        RecalculateTotas();
         return Result.Success();
     }
 
@@ -156,20 +156,20 @@ public sealed class Order : Entity
             return Result.Failure(OrderErrors.DiscountExceedsSubtotal(Id));
         
         Discount = discount;
-        RecalculateTotais();
+        RecalculateTotas();
         return Result.Success();
     }
 
     public Result SetShipping(Money shippingCost)
     {
         ShippingCost = shippingCost;
-        RecalculateTotais();
+        RecalculateTotas();
         return Result.Success();
     }
 
     private bool IsEditable => Status is OrderStatus.Pending;
 
-    private void RecalculateTotais()
+    private void RecalculateTotas()
     {
         SubTotal = _items.Aggregate(Money.Zero(), (acc, item) => acc.Add(item.TotalPrice));
         Total = SubTotal.Add(ShippingCost).Subtract(Discount);

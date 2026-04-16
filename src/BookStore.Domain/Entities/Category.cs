@@ -14,7 +14,7 @@ public sealed class Category : Entity
 
     private Category() { }
 
-    public Category(string name, string slug, string? description)
+    private Category(string name, string slug, string? description)
     {
         Name = name;
         Slug = slug;
