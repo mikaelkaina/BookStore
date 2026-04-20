@@ -84,13 +84,13 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             item.Property(i => i.BookId).IsRequired();
             item.Property(i => i.BookTitle).IsRequired().HasMaxLength(200);
 
-            item.ComplexProperty(i => i.UnitPrice, m =>
+            item.OwnsOne(i => i.UnitPrice, m =>
             {
                 m.Property(p => p.Amount).HasColumnName("UnitPrice").HasColumnType("decimal(18,2)");
                 m.Property(p => p.Currency).HasColumnName("UnitPriceCurrency").HasMaxLength(3).HasDefaultValue("BRL");
             });
 
-            item.ComplexProperty(i => i.TotalPrice, m =>
+            item.OwnsOne(i => i.TotalPrice, m =>
             {
                 m.Property(p => p.Amount).HasColumnName("TotalPrice").HasColumnType("decimal(18,2)");
                 m.Property(p => p.Currency).HasColumnName("TotalPriceCurrency").HasMaxLength(3).HasDefaultValue("BRL");

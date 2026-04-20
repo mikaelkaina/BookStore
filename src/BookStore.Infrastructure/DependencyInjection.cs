@@ -1,5 +1,7 @@
-﻿using BookStore.Infrastructure.Interceptors;
+﻿using BookStore.Domain.Interfaces;
+using BookStore.Infrastructure.Interceptors;
 using BookStore.Infrastructure.Persistence;
+using BookStore.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +21,13 @@ public static class DependencyInjection
 
             options.AddInterceptors(sp.GetRequiredService<DomainEventInterceptor>());
         });
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
 
         return services;
     }
