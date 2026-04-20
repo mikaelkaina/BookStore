@@ -47,13 +47,13 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
             item.Property(i => i.BookCoverUrl).HasMaxLength(500);
             item.Property(i => i.Quantity).IsRequired();
 
-            item.ComplexProperty(i => i.UnitPrice, m =>
+            item.OwnsOne(i => i.UnitPrice, m =>
             {
                 m.Property(p => p.Amount).HasColumnName("UnitPrice").HasColumnType("decimal(18,2)");
                 m.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3).HasDefaultValue("BRL");
             });
 
-            item.ComplexProperty(i => i.TotalPrice, m =>
+            item.OwnsOne(i => i.TotalPrice, m =>
             {
                 m.Property(p => p.Amount).HasColumnName("TotalPrice").HasColumnType("decimal(18,2)");
                 m.Property(p => p.Currency).HasColumnName("TotalPriceCurrency").HasMaxLength(3).HasDefaultValue("BRL");
