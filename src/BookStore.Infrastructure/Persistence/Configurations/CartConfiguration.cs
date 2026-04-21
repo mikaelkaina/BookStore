@@ -60,9 +60,6 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
             item.Property(i => i.Quantity)
                 .IsRequired();
 
-            // =========================
-            // VALUE OBJECT: UnitPrice
-            // =========================
             item.OwnsOne(i => i.UnitPrice, m =>
             {
                 m.Property(p => p.Amount)
@@ -76,9 +73,6 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
                     .HasDefaultValue("BRL");
             });
 
-            // =========================
-            // VALUE OBJECT: TotalPrice
-            // =========================
             item.OwnsOne(i => i.TotalPrice, m =>
             {
                 m.Property(p => p.Amount)

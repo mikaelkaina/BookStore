@@ -13,7 +13,7 @@ public sealed class Address : ValueObject
     public string ZipCode { get; private set; } = null!;
     public string Country { get; private set; } = null!;
 
-    private Address() { } // 👈 ESSENCIAL PRO EF
+    private Address() { }
 
     private Address(string street, string number, string? complement, string neighborhood, string city, string state, string zipCode, string country)
     {

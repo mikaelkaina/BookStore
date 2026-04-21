@@ -26,7 +26,7 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(b => b.Description)
             .HasMaxLength(2000);
 
-        // 📌 Value Object: ISBN
+
         builder.OwnsOne(b => b.Isbn, isbn =>
         {
             isbn.Property(i => i.Value)
@@ -38,7 +38,6 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
                 .IsUnique();
         });
 
-        // 📌 Value Object: Price
         builder.OwnsOne(b => b.Price, price =>
         {
             price.Property(p => p.Amount)
@@ -83,7 +82,6 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired()
             .HasDefaultValue(true);
 
-        // ✅ Índice corrigido (baseado na coluna)
 
         builder.HasOne(b => b.Category)
             .WithMany()

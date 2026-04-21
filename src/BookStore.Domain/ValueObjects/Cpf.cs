@@ -6,7 +6,7 @@ public sealed class Cpf : ValueObject
 {
     public string Value { get; private set; } = null!;
 
-    private Cpf() { } // 👈 ESSENCIAL PRO EF
+    private Cpf() { }
 
     private Cpf(string value)
     {
