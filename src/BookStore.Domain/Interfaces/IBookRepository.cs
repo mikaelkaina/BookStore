@@ -7,7 +7,7 @@ public interface IBookRepository : IRepository<Book>
 {
     Task<Book?> GetByIsbnAsync(Isbn isbn, CancellationToken cancellationToken = default);  
     Task<(IEnumerable<Book> Books, int TotalCount)> GetPagedAsync (
-        string? searchTerm, Guid? categoryId, decimal? minPrince, decimal? maxPrince, bool? sortByPrice, 
+        string? searchTerm, Guid? categoryId, decimal? minPrice, decimal? maxPrice, bool? sortByPrice, 
         bool ascending, int page, int pageSize, CancellationToken cancellationToken = default);
 
     Task<bool> IsbnExistsAsync(Isbn isbn, Guid? excludeBookId = null, CancellationToken cancellationToken = default);

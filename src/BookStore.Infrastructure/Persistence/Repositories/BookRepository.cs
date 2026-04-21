@@ -21,20 +21,23 @@ public sealed class BookRepository : IBookRepository
 
     public async Task<IEnumerable<Book>> GetByCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default)
         => await _context.Books
+        .AsNoTracking()
         .Include(b => b.Category)
         .Where(b => b.CategoryId == categoryId && b.IsActive)
         .OrderBy(b => b.Title)
         .ToListAsync(cancellationToken);
 
     public async Task<Book?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Books.Include(b => b.Category).FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+        => await _context.Books.AsNoTracking().Include(b => b.Category).FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
     public async Task<Book?> GetByIsbnAsync(Isbn isbn, CancellationToken cancellationToken = default)
-        => await _context.Books.FirstOrDefaultAsync(b => b.Isbn.Value == isbn.Value, cancellationToken);
+        => await _context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Isbn.Value == isbn.Value, cancellationToken);
 
-    public async Task<(IEnumerable<Book> Books, int TotalCount)> GetPagedAsync(string? searchTerm, Guid? categoryId, decimal? minPrince, decimal? maxPrince, bool? sortByPrice, bool ascending, int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<(IEnumerable<Book> Books, int TotalCount)> GetPagedAsync(string? searchTerm, Guid? categoryId, decimal? minPrice, decimal? maxPrice,
+        bool? sortByPrice, bool ascending, int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var query = _context.Books
+            .AsNoTracking()
             .Include(b => b.Category)
             .Where(b => b.IsActive)
             .AsQueryable();
@@ -48,11 +51,11 @@ public sealed class BookRepository : IBookRepository
         if (categoryId.HasValue)
             query = query.Where(b => b.CategoryId == categoryId.Value);
 
-        if (minPrince.HasValue)
-            query = query.Where(b => b.Price.Amount >= minPrince.Value);
+        if (minPrice.HasValue)
+            query = query.Where(b => b.Price.Amount >= minPrice.Value);
 
-        if (maxPrince.HasValue)
-            query = query.Where(b => b.Price.Amount <= maxPrince.Value);
+        if (maxPrice.HasValue)
+            query = query.Where(b => b.Price.Amount <= maxPrice.Value);
 
         query = sortByPrice == true
             ? ascending
