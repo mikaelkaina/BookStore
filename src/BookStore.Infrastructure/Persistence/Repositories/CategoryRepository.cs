@@ -21,18 +21,20 @@ public sealed class CategoryRepository : ICategoryRepository
 
     public async Task<IEnumerable<Category>> GetActiveAsync(CancellationToken cancellationToken = default)
         => await _context.Categories
+        .AsNoTracking()
         .Where(c => c.IsActive)
         .OrderBy(c => c.Name)
         .ToListAsync(cancellationToken);
 
     public async Task<Category?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        => await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
     public async Task<Category?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
-        => await _context.Categories.FirstOrDefaultAsync(c => c.Slug == slug, cancellationToken);
+        => await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Slug == slug, cancellationToken);
 
     public async Task<bool> SlugExistsAsync(string slug, Guid? excludeId = null, CancellationToken cancellationToken = default)
         => await _context.Categories
+        .AsNoTracking()
         .AnyAsync(c => 
         c.Slug == slug && 
         (excludeId == null || c.Id != excludeId.Value), cancellationToken);
