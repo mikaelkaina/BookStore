@@ -38,8 +38,13 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.Phone)
             .HasMaxLength(20);
 
-        builder.Property(c => c.Document)
-            .HasMaxLength(14);
+        builder.ComplexProperty(c => c.Document, cpf =>
+        {
+            cpf.Property(x => x.Value)
+                .HasColumnName("Document")
+                .IsRequired()
+                .HasMaxLength(11);
+        });
 
         builder.Property(c => c.BirthDate);
 
