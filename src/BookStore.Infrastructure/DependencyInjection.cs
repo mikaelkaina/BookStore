@@ -14,9 +14,10 @@ public static class DependencyInjection
     {
         services.AddScoped<DomainEventInterceptor>();
 
-        services.AddDbContext<AppDbContext>((sp, options ) =>
+        services.AddDbContext<AppDbContext>((sp, options) =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
                 sql => sql.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
 
             options.AddInterceptors(sp.GetRequiredService<DomainEventInterceptor>());

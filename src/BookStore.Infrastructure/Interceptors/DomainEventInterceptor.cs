@@ -5,37 +5,62 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BookStore.Infrastructure.Interceptors;
 
-public class DomainEventInterceptor : SaveChangesInterceptor
+public sealed class DomainEventInterceptor : SaveChangesInterceptor
 {
     private readonly IPublisher _publisher;
+
+    private readonly Dictionary<DbContext, List<IDomainEvent>> _events = new();
+
     public DomainEventInterceptor(IPublisher publisher)
-    {
-        _publisher = publisher;
-    }
+        => _publisher = publisher;
 
-    public override async ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
+    public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
+        CancellationToken cancellationToken = default)
     {
-        await PublishDomainEventsAsync(eventData.Context, cancellationToken);
-        return await base.SavedChangesAsync(eventData, result, cancellationToken);
-    }
+        if (eventData.Context is null)
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
 
-    private async Task PublishDomainEventsAsync(DbContext? context, CancellationToken cancellationToken)
-    {
-        if (context is null) return;
+        var context = eventData.Context;
 
-        var entities = context.ChangeTracker
+        var domainEvents = context.ChangeTracker
             .Entries<Entity>()
             .Where(e => e.Entity.DomainEvents.Any())
-            .Select(e => e.Entity)
+            .SelectMany(e => e.Entity.DomainEvents)
             .ToList();
 
-        var events = entities
-            .SelectMany(e => e.DomainEvents)
-            .ToList();
+        if (domainEvents.Count > 0)
+        {
+            _events[context] = domainEvents;
 
-        entities.ForEach(e => e.ClearDomainEvents());
+            context.ChangeTracker
+                .Entries<Entity>()
+                .ToList()
+                .ForEach(e => e.Entity.ClearDomainEvents());
+        }
+
+        return base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
+
+    public override async ValueTask<int> SavedChangesAsync(
+        SaveChangesCompletedEventData eventData,
+        int result,
+        CancellationToken cancellationToken = default)
+    {
+        if (eventData.Context is null)
+            return await base.SavedChangesAsync(eventData, result, cancellationToken);
+
+        var context = eventData.Context;
+
+        if (!_events.TryGetValue(context, out var events) || events.Count == 0)
+            return await base.SavedChangesAsync(eventData, result, cancellationToken);
+
+        _events.Remove(context);
 
         foreach (var domainEvent in events)
             await _publisher.Publish(domainEvent, cancellationToken);
+
+        return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 }
