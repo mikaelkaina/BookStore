@@ -10,4 +10,8 @@
     <ProjectReference Include="..\BookStore.Infrastructure\BookStore.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Books\Commands\UpdateBook\" />
+  </ItemGroup>
+
 </Project>
