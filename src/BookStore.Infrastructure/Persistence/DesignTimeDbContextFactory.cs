@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace BookStore.Infrastructure.Persistence.Repositories;
+namespace BookStore.Infrastructure.Persistence;
 
 public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
