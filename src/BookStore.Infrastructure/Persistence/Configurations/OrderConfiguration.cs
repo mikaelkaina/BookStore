@@ -27,25 +27,25 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion<string>()
             .HasMaxLength(30);
 
-        builder.ComplexProperty(o => o.SubTotal, m =>
+        builder.OwnsOne(o => o.SubTotal, m =>
         {
             m.Property(p => p.Amount).HasColumnName("Subtotal").HasColumnType("decimal(18,2)");
             m.Property(p => p.Currency).HasColumnName("SubtotalCurrency").HasMaxLength(3).HasDefaultValue("BRL");
         });
 
-        builder.ComplexProperty(o => o.ShippingCost, m =>
+        builder.OwnsOne(o => o.ShippingCost, m =>
         {
             m.Property(p => p.Amount).HasColumnName("ShippingCost").HasColumnType("decimal(18,2)");
             m.Property(p => p.Currency).HasColumnName("ShippingCurrency").HasMaxLength(3).HasDefaultValue("BRL");
         });
 
-        builder.ComplexProperty(o => o.Discount, m =>
+        builder.OwnsOne(o => o.Discount, m =>
         {
             m.Property(p => p.Amount).HasColumnName("Discount").HasColumnType("decimal(18,2)");
             m.Property(p => p.Currency).HasColumnName("DiscountCurrency").HasMaxLength(3).HasDefaultValue("BRL");
         });
 
-        builder.ComplexProperty(o => o.Total, m =>
+        builder.OwnsOne(o => o.Total, m =>
         {
             m.Property(p => p.Amount).HasColumnName("Total").HasColumnType("decimal(18,2)");
             m.Property(p => p.Currency).HasColumnName("TotalCurrency").HasMaxLength(3).HasDefaultValue("BRL");

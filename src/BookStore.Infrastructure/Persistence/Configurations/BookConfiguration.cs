@@ -26,17 +26,20 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property(b => b.Description)
             .HasMaxLength(2000);
 
-
-
-        builder.ComplexProperty(b => b.Isbn, isbn =>
+        // 📌 Value Object: ISBN
+        builder.OwnsOne(b => b.Isbn, isbn =>
         {
             isbn.Property(i => i.Value)
                 .HasColumnName("Isbn")
                 .IsRequired()
                 .HasMaxLength(13);
+
+            isbn.HasIndex(i => i.Value)
+                .IsUnique();
         });
 
-        builder.ComplexProperty(b => b.Price, price =>
+        // 📌 Value Object: Price
+        builder.OwnsOne(b => b.Price, price =>
         {
             price.Property(p => p.Amount)
                 .HasColumnName("Price")
@@ -80,15 +83,14 @@ public sealed class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired()
             .HasDefaultValue(true);
 
-        builder.HasIndex(b => b.Isbn)
-            .IsUnique();
-
+        // ✅ Índice corrigido (baseado na coluna)
 
         builder.HasOne(b => b.Category)
             .WithMany()
             .HasForeignKey(b => b.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(b => b.CreatedAt).IsRequired();
+        builder.Property(b => b.CreatedAt)
+            .IsRequired();
     }
 }

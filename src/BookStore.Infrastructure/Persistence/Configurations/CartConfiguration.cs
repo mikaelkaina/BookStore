@@ -32,34 +32,68 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
             .IsRequired()
             .HasDefaultValue(false);
 
-        builder.Property(c => c.ExpiresAt).IsRequired();
+        builder.Property(c => c.ExpiresAt)
+            .IsRequired();
 
         builder.OwnsMany(c => c.Items, item =>
         {
             item.ToTable("CartItems");
 
-            item.WithOwner().HasForeignKey(i => i.CartId);
+            item.WithOwner()
+                .HasForeignKey(i => i.CartId);
 
             item.HasKey(i => i.Id);
-            item.Property(i => i.Id).ValueGeneratedNever();
-            item.Property(i => i.BookId).IsRequired();
-            item.Property(i => i.BookTitle).IsRequired().HasMaxLength(200);
-            item.Property(i => i.BookCoverUrl).HasMaxLength(500);
-            item.Property(i => i.Quantity).IsRequired();
 
+            item.Property(i => i.Id)
+                .ValueGeneratedNever();
+
+            item.Property(i => i.BookId)
+                .IsRequired();
+
+            item.Property(i => i.BookTitle)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            item.Property(i => i.BookCoverUrl)
+                .HasMaxLength(500);
+
+            item.Property(i => i.Quantity)
+                .IsRequired();
+
+            // =========================
+            // VALUE OBJECT: UnitPrice
+            // =========================
             item.OwnsOne(i => i.UnitPrice, m =>
             {
-                m.Property(p => p.Amount).HasColumnName("UnitPrice").HasColumnType("decimal(18,2)");
-                m.Property(p => p.Currency).HasColumnName("Currency").HasMaxLength(3).HasDefaultValue("BRL");
+                m.Property(p => p.Amount)
+                    .HasColumnName("UnitPriceAmount")
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+
+                m.Property(p => p.Currency)
+                    .HasColumnName("UnitPriceCurrency")
+                    .HasMaxLength(3)
+                    .HasDefaultValue("BRL");
             });
 
+            // =========================
+            // VALUE OBJECT: TotalPrice
+            // =========================
             item.OwnsOne(i => i.TotalPrice, m =>
             {
-                m.Property(p => p.Amount).HasColumnName("TotalPrice").HasColumnType("decimal(18,2)");
-                m.Property(p => p.Currency).HasColumnName("TotalPriceCurrency").HasMaxLength(3).HasDefaultValue("BRL");
+                m.Property(p => p.Amount)
+                    .HasColumnName("TotalPriceAmount")
+                    .HasColumnType("decimal(18,2)")
+                    .IsRequired();
+
+                m.Property(p => p.Currency)
+                    .HasColumnName("TotalPriceCurrency")
+                    .HasMaxLength(3)
+                    .HasDefaultValue("BRL");
             });
         });
 
-        builder.Property(c => c.CreatedAt).IsRequired();
+        builder.Property(c => c.CreatedAt)
+            .IsRequired();
     }
 }

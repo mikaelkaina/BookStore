@@ -4,9 +4,14 @@ namespace BookStore.Domain.ValueObjects;
 
 public sealed class Cpf : ValueObject
 {
-    public string Value { get; }
+    public string Value { get; private set; } = null!;
 
-    private Cpf(string value) => Value = value;
+    private Cpf() { } // 👈 ESSENCIAL PRO EF
+
+    private Cpf(string value)
+    {
+        Value = value;
+    }
 
     public static Result<Cpf> Create(string cpf)
     {
