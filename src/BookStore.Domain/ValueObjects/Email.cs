@@ -10,18 +10,26 @@ public sealed class Email : ValueObject
         RegexOptions.Compiled | RegexOptions.IgnoreCase
     );
 
-    public string Value { get; }
-    
-    private Email(string value) => Value = value;
+    public string Value { get; private set; } = null!;
+
+    private Email() { }
+
+    private Email(string value)
+    {
+        Value = value;
+    }
 
     public static Result<Email> Create(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
-            return Result.Failure<Email>(Error.Validation(nameof(Email), "Email is required"));
+            return Result.Failure<Email>(
+                Error.Validation(nameof(Email), "Email is required"));
 
         var normalizedEmail = email.Trim().ToLowerInvariant();
+
         if (!EmailRegex.IsMatch(normalizedEmail))
-            return Result.Failure<Email>(Error.Validation(nameof(Email), "Email format is invalid"));
+            return Result.Failure<Email>(
+                Error.Validation(nameof(Email), "Email format is invalid"));
 
         return Result.Success(new Email(normalizedEmail));
     }

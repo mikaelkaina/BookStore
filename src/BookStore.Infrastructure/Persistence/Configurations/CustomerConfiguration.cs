@@ -23,22 +23,21 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .IsRequired()
             .HasMaxLength(100);
 
-
-        builder.ComplexProperty(c => c.Email, email =>
+        builder.OwnsOne(c => c.Email, email =>
         {
             email.Property(e => e.Value)
                 .HasColumnName("Email")
                 .IsRequired()
                 .HasMaxLength(250);
-        });
 
-        builder.HasIndex("Email")
-            .IsUnique();
+            email.HasIndex(e => e.Value)
+                .IsUnique();
+        });
 
         builder.Property(c => c.Phone)
             .HasMaxLength(20);
 
-        builder.ComplexProperty(c => c.Document, cpf =>
+        builder.OwnsOne(c => c.Document, cpf =>
         {
             cpf.Property(x => x.Value)
                 .HasColumnName("Document")

@@ -4,14 +4,16 @@ namespace BookStore.Domain.ValueObjects;
 
 public sealed class Address : ValueObject
 {
-    public string Street { get; }
-    public string Number { get; }
-    public string? Complement { get; }
-    public string Neighborhood { get; }
-    public string City { get; } 
-    public string State { get; }
-    public string ZipCode { get; }
-    public string Country { get; }
+    public string Street { get; private set; } = null!;
+    public string Number { get; private set; } = null!;
+    public string? Complement { get; private set; }
+    public string Neighborhood { get; private set; } = null!;
+    public string City { get; private set; } = null!;
+    public string State { get; private set; } = null!;
+    public string ZipCode { get; private set; } = null!;
+    public string Country { get; private set; } = null!;
+
+    private Address() { } // 👈 ESSENCIAL PRO EF
 
     private Address(string street, string number, string? complement, string neighborhood, string city, string state, string zipCode, string country)
     {

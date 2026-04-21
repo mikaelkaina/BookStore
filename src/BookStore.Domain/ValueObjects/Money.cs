@@ -5,8 +5,10 @@ namespace BookStore.Domain.ValueObjects;
 
 public sealed class Money : ValueObject
 {
-    public decimal Amount { get; }
-    public string Currency { get; }
+    public decimal Amount { get; private set; }
+    public string Currency { get; private set; } = null!;
+
+    private Money() { }
 
     private Money(decimal amount, string currency)
     {
@@ -17,19 +19,24 @@ public sealed class Money : ValueObject
     public static Result<Money> Create(decimal amount, string currency = "BRL")
     {
         if (amount < 0)
-            return Result.Failure<Money>(Error.Validation(nameof(Amount), "Amount cannot be negative."));
-        
+            return Result.Failure<Money>(
+                Error.Validation(nameof(Amount), "Amount cannot be negative."));
+
         if (string.IsNullOrWhiteSpace(currency))
-            return Result.Failure<Money>(Error.Validation(nameof(Currency), "Currency cannot be empty."));
+            return Result.Failure<Money>(
+                Error.Validation(nameof(Currency), "Currency cannot be empty."));
 
         var normalizedCurrency = currency.Trim().ToUpperInvariant();
+
         if (normalizedCurrency.Length != 3)
-            return Result.Failure<Money>(Error.Validation(nameof(Currency), "Currency must have 3 characters."));
+            return Result.Failure<Money>(
+                Error.Validation(nameof(Currency), "Currency must have 3 characters."));
 
         return Result.Success(new Money(amount, normalizedCurrency));
     }
 
-    public static Money Zero(string currency = "BRL") => new Money(0, currency);
+    public static Money Zero(string currency = "BRL") =>
+        new Money(0, currency);
 
     public Money Add(Money other)
     {
@@ -55,11 +62,12 @@ public sealed class Money : ValueObject
     private void EnsureSameCurrency(Money other)
     {
         if (Currency != other.Currency)
-            throw new InvalidOperationException($"Cannot operate on different currencies: {Currency} and {other.Currency}.");
+            throw new InvalidOperationException(
+                $"Cannot operate on different currencies: {Currency} and {other.Currency}.");
     }
 
     public override string ToString() =>
-    $"{Amount.ToString("F2", CultureInfo.InvariantCulture)} {Currency}";
+        $"{Amount.ToString("F2", CultureInfo.InvariantCulture)} {Currency}";
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
