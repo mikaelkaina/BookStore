@@ -20,24 +20,21 @@ public sealed class CartRepository : ICartRepository
 
     public async Task<Cart?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
         => await _context.Carts
+        .AsNoTracking()
         .Include(c => c.Items)
-        .FirstOrDefaultAsync(c => 
-        c.CustomerId == customerId &&
-        !c.IsCheckedOut &&
-        c.ExpiresAt > DateTime.UtcNow, cancellationToken);
+        .FirstOrDefaultAsync(c => c.CustomerId == customerId, cancellationToken);
 
     public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Carts
+        .AsNoTracking()
         .Include(c => c.Items)
         .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
-    public async Task<Cart?> GetBySessionIdAsync(string sessionId, CancellationToken cancellationToken)
+    public async Task<Cart?> GetBySessionIdAsync(string sessionId, CancellationToken cancellationToken = default)
         => await _context.Carts
+        .AsNoTracking()
         .Include(c => c.Items)
-        .FirstOrDefaultAsync(c => 
-        c.SessionId == sessionId &&
-        !c.IsCheckedOut &&
-        c.ExpiresAt > DateTime.UtcNow, cancellationToken);
+        .FirstOrDefaultAsync(c => c.SessionId == sessionId, cancellationToken);
 
     public Task UpdateAsync(Cart entity, CancellationToken cancellationToken = default)
     {

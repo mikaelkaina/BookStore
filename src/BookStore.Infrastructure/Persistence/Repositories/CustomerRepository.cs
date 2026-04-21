@@ -12,7 +12,7 @@ public sealed class CustomerRepository : ICustomerRepository
         => _context = context;
 
     public async Task AddAsync(Customer entity, CancellationToken cancellationToken = default)
-        => await _context.AddAsync(entity, cancellationToken);
+        => await _context.Customers.AddAsync(entity, cancellationToken);
 
     public Task DeleteAsync(Customer entity, CancellationToken cancellationToken = default)
     {
@@ -22,16 +22,17 @@ public sealed class CustomerRepository : ICustomerRepository
 
     public async Task<bool> EmailExistsAsync(Email email, Guid? excludeCustomerId = null, CancellationToken cancellationToken = default)
         => await _context.Customers
+        .AsNoTracking()
         .AnyAsync(c =>
             c.Email.Value == email.Value &&
             (excludeCustomerId == null || c.Id != excludeCustomerId.Value),
             cancellationToken);
 
     public Task<Customer?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
-        => _context.Customers.FirstOrDefaultAsync(c => c.Email.Value == email.Value, cancellationToken);
+        => _context.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.Email.Value == email.Value, cancellationToken);
 
     public Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => _context.Customers.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        => _context.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
 
     public Task UpdateAsync(Customer entity, CancellationToken cancellationToken = default)
     {

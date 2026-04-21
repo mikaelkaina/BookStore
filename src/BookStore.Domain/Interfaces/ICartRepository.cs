@@ -5,5 +5,5 @@ namespace BookStore.Domain.Interfaces;
 public interface ICartRepository : IRepository<Cart>
 {
     Task<Cart?> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default);
-    Task<Cart?> GetBySessionIdAsync(string sessionId, CancellationToken cancellationToken);
+    Task<Cart?> GetBySessionIdAsync(string sessionId, CancellationToken cancellationToken = default);
 }
