@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Features.Books.Commands.CreateBook;
 using BookStore.Application.Features.Books.Commands.UpdateBook;
 using BookStore.Application.Features.Books.Queries.GetBookById;
+using BookStore.Application.Features.Books.Queries.GetBooksByCategory;
 using BookStore.Application.Features.Books.Queries.GetBooksPaged;
 using BookStore.Domain.Entities;
 
@@ -77,5 +78,18 @@ public static class BookMappingExtensions
             book.CoverImageUrl,
             book.Format.ToString(),
             book.Category.Name
+        );
+
+    public static GetBooksByCategoryResponse ToGetByCategoryResponse(this Book book) =>
+        new(
+            book.Id,
+            book.Title,
+            book.Author,
+            book.Isbn.Value,
+            book.Price.Amount,
+            book.Price.Currency,
+            book.StockQuantity,
+            book.CoverImageUrl,
+            book.Format.ToString()
         );
 }
