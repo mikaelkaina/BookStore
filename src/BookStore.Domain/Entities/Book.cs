@@ -77,6 +77,29 @@ public sealed class Book : Entity
         return Result.Success(book);
     }
 
+    public Result UpdateDetails(string title, string author, string? description, string? coverImageUrl, string publisher)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            return Result.Failure(Error.Validation(nameof(Title), "Title is required"));
+
+        if (title.Length > 200)
+            return Result.Failure(Error.Validation(nameof(Title), "Title cannot exceed 200 characters"));
+
+        if (string.IsNullOrWhiteSpace(author))
+            return Result.Failure(Error.Validation(nameof(Author), "Author is required."));
+
+        if (string.IsNullOrWhiteSpace(publisher))
+            return Result.Failure(Error.Validation(nameof(Publisher), "Publisher is required."));
+
+        Title = title.Trim();
+        Author = author.Trim();
+        Description = description?.Trim();
+        CoverImageUrl = coverImageUrl;
+        Publisher = publisher.Trim();
+        SetUpdatedAt();
+        return Result.Success();
+    }
+
     public Result UpdatePrice(decimal newPrice)
     {
         var priceResult = Money.Create(newPrice);
