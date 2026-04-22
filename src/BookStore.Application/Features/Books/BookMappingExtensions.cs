@@ -1,4 +1,5 @@
 ﻿using BookStore.Application.Features.Books.Commands.CreateBook;
+using BookStore.Application.Features.Books.Commands.UpdateBook;
 using BookStore.Domain.Entities;
 
 namespace BookStore.Application.Features.Books;
@@ -24,5 +25,18 @@ public static class BookMappingExtensions
             book.IsActive,
             book.CategoryId,
             categoryName,
-            book.CreatedAt);
+            book.CreatedAt
+        );
+
+    public static UpdateBookResponse ToUpdateResponse(this Book book, string categoryName) =>
+        new(
+            book.Id,
+            book.Title,
+            book.Author,
+            book.Description,
+            book.CoverImageUrl,
+            book.Publisher,
+            categoryName,
+            book.UpdatedAt
+        );
 }
