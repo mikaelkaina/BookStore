@@ -38,11 +38,11 @@ public sealed class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand
         if (result.IsFailure)
             return Result.Failure<UpdateBookResponse>(result.Error);
 
-        await _bookRepository.UpdateAsync(book, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
-
         var category = await _categoryRepository.GetByIdAsync(book.CategoryId, cancellationToken);
         var categoryName = category?.Name ?? string.Empty;
+
+        await _bookRepository.UpdateAsync(book, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(book.ToUpdateResponse(categoryName));
     }
