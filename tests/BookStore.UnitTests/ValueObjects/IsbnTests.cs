@@ -28,9 +28,9 @@ public class IsbnTests
     }
 
     [Theory]
-    [InlineData("9780306406158")] // checksum errado
-    [InlineData("1234567890123")] // inválido
-    [InlineData("123")]           // muito curto
+    [InlineData("9780306406158")] 
+    [InlineData("1234567890123")] 
+    [InlineData("123")]        
     [InlineData("")]
     [InlineData(null)]
     public void Create_WithInvalidIsbn_ShouldFail(string? isbn)

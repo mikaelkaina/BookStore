@@ -37,22 +37,35 @@ public sealed class Customer : Entity
         IsActive = true;
     }
 
-    public static Result<Customer> Create(string firstName, string lastName, string email, string? phone = null, string document = null!,
-    DateOnly? birthDate = null)
+    public static Result<Customer> Create(string firstName, string lastName, string email,
+    string? phone = null, string? document = null, DateOnly? birthDate = null)
     {
         if (string.IsNullOrWhiteSpace(firstName))
-            return Result.Failure<Customer>(Error.Validation(nameof(FirstName), "First name is required."));
+            return Result.Failure<Customer>(
+                Error.Validation(nameof(FirstName), "First name is required."));
 
         if (string.IsNullOrWhiteSpace(lastName))
-            return Result.Failure<Customer>(Error.Validation(nameof(LastName), "Last name is required."));
+            return Result.Failure<Customer>(
+                Error.Validation(nameof(LastName), "Last name is required."));
+
+        if (string.IsNullOrWhiteSpace(document))
+            return Result.Failure<Customer>(
+                Error.Validation(nameof(Document), "CPF is required."));
 
         var emailResult = Email.Create(email);
-        if (emailResult.IsFailure)return Result.Failure<Customer>(emailResult.Error);
+        if (emailResult.IsFailure)
+            return Result.Failure<Customer>(emailResult.Error);
 
         var cpfResult = Cpf.Create(document);
-        if (cpfResult.IsFailure)return Result.Failure<Customer>(cpfResult.Error);
+        if (cpfResult.IsFailure)
+            return Result.Failure<Customer>(cpfResult.Error);
 
-        return Result.Success(new Customer(firstName.Trim(), lastName.Trim(), emailResult.Value,phone,cpfResult.Value,
+        return Result.Success(new Customer(
+            firstName.Trim(),
+            lastName.Trim(),
+            emailResult.Value,
+            phone,
+            cpfResult.Value,
             birthDate
         ));
     }

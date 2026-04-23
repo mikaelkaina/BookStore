@@ -10,9 +10,17 @@ public class CustomerTests
     [Fact]
     public void Create_WithValidData_ShouldSucceed()
     {
-        var customer = new CustomerBuilder().Build();
+        var result = Customer.Create(
+            "João",
+            "Silva",
+            "email@teste.com",
+            document: "12345678909"
+        );
 
-        customer.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+
+        var customer = result.Value;
+
         customer.IsActive.Should().BeTrue();
         customer.Role.Should().Be(CustomerRole.Customer);
     }
@@ -50,10 +58,15 @@ public class CustomerTests
     [Fact]
     public void Create_WithNullCpf_ShouldFail()
     {
-        var result = Customer.Create("João", "Silva", "email@email.com", document: null);
+        var result = Customer.Create(
+            "João",
+            "Silva",
+            "email@email.com",
+            document: null
+        );
 
         result.IsFailure.Should().BeTrue();
-        result.Error.Code.Should().Contain("Cpf");
+        result.Error.Code.Should().Contain("Document");
     }
 
     [Fact]
@@ -141,5 +154,50 @@ public class CustomerTests
 
         result.IsSuccess.Should().BeTrue();
         result.Value.FullName.Should().Be("Maria Oliveira");
+    }
+
+    [Fact]
+    public void Create_WithEmptyEmail_ShouldFail()
+    {
+        var result = Customer.Create(
+            "João",
+            "Silva",
+            "",
+            document: "12345678909"
+        );
+
+        result.IsFailure.Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Create_WithEmptyLastName_ShouldFail(string lastName)
+    {
+        var result = Customer.Create(
+            "João",
+            lastName,
+            "email@email.com",
+            document: "12345678909"
+        );
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Code.Should().Contain("LastName");
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Create_WithEmptyCpf_ShouldFail(string cpf)
+    {
+        var result = Customer.Create(
+            "João",
+            "Silva",
+            "email@email.com",
+            document: cpf
+        );
+
+        result.IsFailure.Should().BeTrue();
+        result.Error.Code.Should().Contain("Document");
     }
 }
