@@ -5,7 +5,7 @@ using BookStore.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace BookStore.ApplicationTests.Book;
+namespace BookStore.ApplicationTests.BookTests;
 
 public class CreateBookCommandHandlerTests
 {
@@ -66,7 +66,7 @@ public class CreateBookCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
 
-        _bookRepository.Verify(x => x.AddAsync(It.IsAny<BookStore.Domain.Entities.Book>(), It.IsAny<CancellationToken>()), Times.Once);
+        _bookRepository.Verify(x => x.AddAsync(It.IsAny<Book>(), It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -83,7 +83,7 @@ public class CreateBookCommandHandlerTests
 
         result.IsFailure.Should().BeTrue();
 
-        _bookRepository.Verify(x => x.AddAsync(It.IsAny<BookStore.Domain.Entities.Book>(), It.IsAny<CancellationToken>()), Times.Never);
+        _bookRepository.Verify(x => x.AddAsync(It.IsAny<Book>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]

@@ -31,8 +31,4 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Book\Create\" />
-  </ItemGroup>
-
 </Project>
