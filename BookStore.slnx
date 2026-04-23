@@ -6,6 +6,7 @@
     <Project Path="src/BookStore.Infrastructure/BookStore.Infrastructure.csproj" Id="7277a31a-d442-492c-ae43-38b1e58db975" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/BookStore.ApplicationTests/BookStore.ApplicationTests.csproj" Id="285dbf88-0b3a-48ef-89a7-807599357c76" />
     <Project Path="tests/BookStore.UnitTests/BookStore.UnitTests.csproj" Id="a5e5f7b2-c8d2-4b4a-a969-641e6f50e6bc" />
   </Folder>
 </Solution>
