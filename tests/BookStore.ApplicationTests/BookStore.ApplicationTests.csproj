@@ -24,11 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BookStore.Application\BookStore.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\BookStore.Domain\BookStore.Domain.csproj" />
+    <Folder Include="Book\Create\" />
   </ItemGroup>
 
 </Project>
