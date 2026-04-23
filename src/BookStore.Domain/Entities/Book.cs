@@ -138,6 +138,11 @@ public sealed class Book : Entity
         return Result.Success();
     }
 
+    public void SetCategory(Category category)
+    {
+        Category = category;
+    }
+
     public bool HasStock(int quantity = 1) => StockQuantity >= quantity;
     public void Deactivate() { IsActive = false; SetUpdatedAt(); }
     public void Activate() { IsActive = true; SetUpdatedAt(); }
