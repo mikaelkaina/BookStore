@@ -5,7 +5,7 @@ using BookStore.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace BookStore.ApplicationTests.BookTests;
+namespace BookStore.ApplicationTests.BookTests.Commands;
 
 public class CreateBookCommandHandlerTests
 {

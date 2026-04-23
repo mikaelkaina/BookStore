@@ -1,33 +1,33 @@
-﻿using BookStore.Application.Features.Books.Commands.DeleteBook;
+﻿using BookStore.Application.Features.Books.Commands.UpdateBookPrice;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
 using FluentAssertions;
 using Moq;
 
-namespace BookStore.ApplicationTests.BookTests;
+namespace BookStore.ApplicationTests.BookTests.Commands;
 
-public class DeleteBookCommandHandlerTests
+public class UpdateBookPriceCommandHandlerTests
 {
     private readonly Mock<IBookRepository> _bookRepository;
     private readonly Mock<IUnitOfWork> _unitOfWork;
-    private readonly DeleteBookCommandHandler _handler;
+    private readonly UpdateBookPriceCommandHandler _handler;
 
-    public DeleteBookCommandHandlerTests()
+    public UpdateBookPriceCommandHandlerTests()
     {
         _bookRepository = new Mock<IBookRepository>();
         _unitOfWork = new Mock<IUnitOfWork>();
 
-        _handler = new DeleteBookCommandHandler(
+        _handler = new UpdateBookPriceCommandHandler(
             _unitOfWork.Object,
             _bookRepository.Object
         );
     }
 
     [Fact]
-    public async Task Handle_WithValidData_ShouldDeactivateBook()
+    public async Task Handle_WithValidData_ShouldSucceed()
     {
-        var command = new DeleteBookCommand(Guid.NewGuid());
+        var command = new UpdateBookPriceCommand(Guid.NewGuid(), 100);
 
         var book = Book.Create(
             "Clean Code",
@@ -53,8 +53,6 @@ public class DeleteBookCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
 
-        book.IsActive.Should().BeFalse();
-
         _bookRepository.Verify(x => x.UpdateAsync(book, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -62,7 +60,7 @@ public class DeleteBookCommandHandlerTests
     [Fact]
     public async Task Handle_WhenBookNotFound_ShouldFail()
     {
-        var command = new DeleteBookCommand(Guid.NewGuid());
+        var command = new UpdateBookPriceCommand(Guid.NewGuid(), 100);
 
         _bookRepository
             .Setup(x => x.GetByIdAsync(command.BookId, It.IsAny<CancellationToken>()))
@@ -77,9 +75,9 @@ public class DeleteBookCommandHandlerTests
     }
 
     [Fact]
-    public async Task Handle_WhenBookAlreadyInactive_ShouldStillSucceed()
+    public async Task Handle_WithInvalidPrice_ShouldFail()
     {
-        var command = new DeleteBookCommand(Guid.NewGuid());
+        var command = new UpdateBookPriceCommand(Guid.NewGuid(), -10);
 
         var book = Book.Create(
             "Clean Code",
@@ -96,7 +94,6 @@ public class DeleteBookCommandHandlerTests
             "EN",
             Guid.NewGuid()
         ).Value;
-        book.Deactivate();
 
         _bookRepository
             .Setup(x => x.GetByIdAsync(command.BookId, It.IsAny<CancellationToken>()))
@@ -104,6 +101,9 @@ public class DeleteBookCommandHandlerTests
 
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        result.IsSuccess.Should().BeTrue();
+        result.IsFailure.Should().BeTrue();
+
+        _bookRepository.Verify(x => x.UpdateAsync(It.IsAny<Book>(), It.IsAny<CancellationToken>()), Times.Never);
+        _unitOfWork.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
     }
 }
