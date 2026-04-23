@@ -5,12 +5,12 @@ using MediatR;
 
 namespace BookStore.Application.Features.Books.Commands.ManageStock;
 
-public sealed class AddStockCommandHnalder : IRequestHandler<AddStockCommand, Result>
+public sealed class AddStockCommandHandler : IRequestHandler<AddStockCommand, Result>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IBookRepository _bookRepository;
 
-    public AddStockCommandHnalder(IUnitOfWork unitOfWork,
+    public AddStockCommandHandler(IUnitOfWork unitOfWork,
         IBookRepository bookRepository)
     {
         _unitOfWork = unitOfWork;
