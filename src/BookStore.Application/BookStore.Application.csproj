@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Customers\Commands\DeleteCustomer\" />
     <Folder Include="Features\Customers\Queries\GetCustomerById\" />
     <Folder Include="Features\Customers\Queries\GetCustomerByEmail\" />
   </ItemGroup>
