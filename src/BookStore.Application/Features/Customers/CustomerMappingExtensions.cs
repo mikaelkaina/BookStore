@@ -1,5 +1,6 @@
 ﻿using BookStore.Application.Features.Customers.Commands.RegisterCustomer;
 using BookStore.Application.Features.Customers.Commands.UpdateCustomerProfile;
+using BookStore.Application.Features.Customers.Queries.GetCustomerByEmail;
 using BookStore.Application.Features.Customers.Queries.GetCustomerById;
 using BookStore.Domain.Entities;
 
