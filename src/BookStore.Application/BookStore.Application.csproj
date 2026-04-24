@@ -19,4 +19,10 @@
     <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Customers\Commands\DeleteCustomer\" />
+    <Folder Include="Features\Customers\Queries\GetCustomerById\" />
+    <Folder Include="Features\Customers\Queries\GetCustomerByEmail\" />
+  </ItemGroup>
+
 </Project>
