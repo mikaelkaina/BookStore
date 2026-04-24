@@ -31,4 +31,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CategoryTests\Queries\" />
+  </ItemGroup>
+
 </Project>
