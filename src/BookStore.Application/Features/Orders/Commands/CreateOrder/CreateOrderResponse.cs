@@ -1,4 +1,6 @@
-﻿namespace BookStore.Application.Features.Orders.Commands.CreateOrder;
+﻿using BookStore.Application.Features.Orders.Shared;
+
+namespace BookStore.Application.Features.Orders.Commands.CreateOrder;
 
 public sealed record CreateOrderResponse(
     Guid Id,
@@ -12,13 +14,4 @@ public sealed record CreateOrderResponse(
     string Currency,
     IEnumerable<OrderItemResponse> Items,
     DateTime CreatedAt
-    );
-
-public sealed record OrderItemResponse(
-    Guid BookId,
-    string BookTitle,
-    decimal UnitPrice,
-    int Quantity,
-    decimal TotalPrice,
-    string Currency
 );

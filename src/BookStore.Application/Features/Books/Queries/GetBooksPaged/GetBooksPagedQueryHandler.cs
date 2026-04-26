@@ -1,4 +1,5 @@
-﻿using BookStore.Domain.Common;
+﻿using BookStore.Application.Common;
+using BookStore.Domain.Common;
 using BookStore.Domain.Interfaces;
 using MediatR;
 
@@ -35,12 +36,10 @@ public sealed class GetBooksPagedQueryHandler
             request.PageSize,
             cancellationToken);
 
-        var items = books.Select(b => b.ToGetPagedResponse());
-
         var totalPages = (int)Math.Ceiling((double)totalCount / request.PageSize);
 
         var response = new PagedResponse<GetBooksPagedResponse>(
-            items,
+            books.Select(b => b.ToGetPagedResponse()),
             totalCount,
             request.Page,
             request.PageSize,
