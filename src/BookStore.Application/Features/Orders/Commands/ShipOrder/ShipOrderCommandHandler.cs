@@ -33,6 +33,7 @@ public sealed class ShipOrderCommandHandler
 
         await _orderRepository.UpdateAsync(order, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
         return Result.Success();
     }
 }
