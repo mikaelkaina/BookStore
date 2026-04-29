@@ -1,8 +1,216 @@
+import { useParams, useNavigate } from 'react-router-dom'
+import { ArrowLeft, Package } from 'lucide-react'
+import { useOrderById, useCancelOrder } from '../../hooks/useOrders'
+import Spinner from '../../components/ui/Spinner'
+import ErrorMessage from '../../components/ui/ErrorMessage'
+import Badge from '../../components/ui/Badge'
+import Button from '../../components/ui/Button'
+import { useState } from 'react'
+
+function getStatusBadgeVariant(status: string) {
+  switch (status) {
+    case 'Pending': return 'warning'
+    case 'PaymentConfirmed': return 'info'
+    case 'Processing': return 'info'
+    case 'Shipped': return 'default'
+    case 'Delivered': return 'success'
+    case 'Cancelled': return 'danger'
+    default: return 'default'
+  }
+}
+
+function getStatusLabel(status: string) {
+  const labels: Record<string, string> = {
+    Pending: 'Pendente',
+    PaymentConfirmed: 'Pagamento Confirmado',
+    Processing: 'Em Processamento',
+    Shipped: 'Enviado',
+    Delivered: 'Entregue',
+    Cancelled: 'Cancelado',
+  }
+  return labels[status] ?? status
+}
+
+const STATUS_STEPS = [
+  'Pending',
+  'PaymentConfirmed',
+  'Processing',
+  'Shipped',
+  'Delivered',
+]
+
 export default function OrderDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const [cancelError, setCancelError] = useState('')
+
+  const { data: order, isLoading, isError } = useOrderById(id!)
+  const cancelOrder = useCancelOrder()
+
+  async function handleCancel() {
+    if (!order) return
+    if (!confirm('Deseja cancelar este pedido?')) return
+    setCancelError('')
+    try {
+      await cancelOrder.mutateAsync({ id: order.id })
+      navigate('/orders')
+    } catch {
+      setCancelError('Não foi possível cancelar o pedido.')
+    }
+  }
+
+  if (isLoading) return <Spinner />
+  if (isError || !order) return <ErrorMessage message="Pedido não encontrado." />
+
+  const isCancelled = order.status === 'Cancelled'
+  const canCancel = !['Delivered', 'Cancelled', 'Returned'].includes(order.status)
+  const currentStepIndex = STATUS_STEPS.indexOf(order.status)
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Detalhes do Pedido</h1>
-      <p className="text-gray-500">Detalhes em construção...</p>
+    <div className="max-w-4xl mx-auto">
+      <button
+        onClick={() => navigate('/orders')}
+        className="flex items-center gap-2 text-gray-500 hover:text-gray-700 mb-6 transition-colors"
+      >
+        <ArrowLeft size={18} />
+        <span className="text-sm">Voltar para Pedidos</span>
+      </button>
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div className="flex items-center gap-3 flex-wrap">
+              <h1 className="text-xl font-bold text-gray-800">{order.orderNumber}</h1>
+              <Badge
+                label={getStatusLabel(order.status)}
+                variant={getStatusBadgeVariant(order.status) as any}
+              />
+            </div>
+            <p className="text-sm text-gray-500 mt-1">
+              Criado em {new Date(order.createdAt).toLocaleDateString('pt-BR')}
+              {order.shippedAt && ` • Enviado em ${new Date(order.shippedAt).toLocaleDateString('pt-BR')}`}
+              {order.deliveredAt && ` • Entregue em ${new Date(order.deliveredAt).toLocaleDateString('pt-BR')}`}
+            </p>
+          </div>
+
+          {canCancel && (
+            <div>
+              <Button variant="danger" size="sm" onClick={handleCancel} loading={cancelOrder.isPending}>
+                Cancelar Pedido
+              </Button>
+              {cancelError && <p className="text-red-500 text-xs mt-1">{cancelError}</p>}
+            </div>
+          )}
+        </div>
+
+        {!isCancelled && (
+          <div className="mt-6">
+            <div className="flex items-center justify-between relative">
+              <div className="absolute left-0 right-0 top-3 h-0.5 bg-gray-200 z-0" />
+              <div
+                className="absolute left-0 top-3 h-0.5 bg-indigo-500 z-0 transition-all"
+                style={{
+                  width: currentStepIndex < 0
+                    ? '0%'
+                    : `${(currentStepIndex / (STATUS_STEPS.length - 1)) * 100}%`
+                }}
+              />
+              {STATUS_STEPS.map((step, index) => {
+                const isCompleted = index <= currentStepIndex
+                const isCurrent = index === currentStepIndex
+                return (
+                  <div key={step} className="flex flex-col items-center z-10 gap-1">
+                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all ${
+                      isCompleted
+                        ? 'bg-indigo-600 border-indigo-600 text-white'
+                        : 'bg-white border-gray-300 text-gray-400'
+                    } ${isCurrent ? 'ring-2 ring-indigo-300 ring-offset-1' : ''}`}>
+                      {isCompleted ? '✓' : index + 1}
+                    </div>
+                    <span className={`text-xs text-center max-w-[60px] leading-tight ${
+                      isCompleted ? 'text-indigo-600 font-medium' : 'text-gray-400'
+                    }`}>
+                      {getStatusLabel(step)}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <div className="md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+          <h2 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+            <Package size={16} className="text-indigo-500" />
+            Itens do Pedido
+          </h2>
+
+          <div className="flex flex-col gap-3">
+            {order.items.map(item => (
+              <div key={item.bookId} className="flex items-center justify-between gap-4 py-2 border-b last:border-0">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-800 truncate">{item.bookTitle}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    {item.unitPrice.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: item.currency,
+                    })} × {item.quantity}
+                  </p>
+                </div>
+                <span className="text-sm font-bold text-gray-800 shrink-0">
+                  {item.totalPrice.toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: item.currency,
+                  })}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <h2 className="font-semibold text-gray-700 mb-3">Resumo</h2>
+            <div className="flex flex-col gap-2 text-sm">
+              <div className="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span>{order.subTotal.toLocaleString('pt-BR', { style: 'currency', currency: order.currency })}</span>
+              </div>
+              <div className="flex justify-between text-gray-600">
+                <span>Frete</span>
+                <span>{order.shippingCost.toLocaleString('pt-BR', { style: 'currency', currency: order.currency })}</span>
+              </div>
+              {order.discount > 0 && (
+                <div className="flex justify-between text-green-600">
+                  <span>Desconto</span>
+                  <span>- {order.discount.toLocaleString('pt-BR', { style: 'currency', currency: order.currency })}</span>
+                </div>
+              )}
+              <div className="border-t pt-2 flex justify-between font-bold text-gray-800">
+                <span>Total</span>
+                <span className="text-indigo-600">
+                  {order.total.toLocaleString('pt-BR', { style: 'currency', currency: order.currency })}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <h2 className="font-semibold text-gray-700 mb-3">Endereço de Entrega</h2>
+            <div className="text-sm text-gray-600 leading-relaxed">
+              <p>{order.shippingAddress.street}, {order.shippingAddress.number}
+                {order.shippingAddress.complement && `, ${order.shippingAddress.complement}`}
+              </p>
+              <p>{order.shippingAddress.neighborhood}</p>
+              <p>{order.shippingAddress.city} / {order.shippingAddress.state}</p>
+              <p>CEP: {order.shippingAddress.zipCode}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

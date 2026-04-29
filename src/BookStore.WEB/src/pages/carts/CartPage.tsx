@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+//import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Trash2, ShoppingCart, ArrowRight, BookOpen } from 'lucide-react'
 import {
   useCart,
   useRemoveFromCart,
   useUpdateCartQuantity,
   useClearCart,
-  useCheckoutCart,
 } from '../../hooks/useCart'
 import Spinner from '../../components/ui/Spinner'
 import Button from '../../components/ui/Button'
@@ -22,15 +21,12 @@ function getSessionId(): string {
 }
 
 export default function CartPage() {
-  const navigate = useNavigate()
   const sessionId = getSessionId()
-  const [checkoutError, setCheckoutError] = useState('')
 
   const { data: cart, isLoading } = useCart(undefined, sessionId)
   const removeItem = useRemoveFromCart()
   const updateQuantity = useUpdateCartQuantity()
   const clearCart = useClearCart()
-  const checkoutCart = useCheckoutCart()
 
   async function handleRemove(bookId: string) {
     if (!cart) return
@@ -46,17 +42,6 @@ export default function CartPage() {
     if (!cart) return
     if (!confirm('Deseja limpar o carrinho?')) return
     await clearCart.mutateAsync(cart.id)
-  }
-
-  async function handleCheckout() {
-    if (!cart) return
-    setCheckoutError('')
-    try {
-      await checkoutCart.mutateAsync(cart.id)
-      navigate('/orders')
-    } catch {
-      setCheckoutError('Erro ao finalizar. Tente novamente.')
-    }
   }
 
   if (isLoading) return <Spinner />
@@ -191,19 +176,12 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {checkoutError && (
-                <p className="text-red-500 text-xs mt-3">{checkoutError}</p>
-              )}
-
-              <Button
-                className="w-full mt-4"
-                size="lg"
-                onClick={handleCheckout}
-                loading={checkoutCart.isPending}
-              >
-                Finalizar Compra
-                <ArrowRight size={16} />
-              </Button>
+              <Link to="/checkout">
+                <Button className="w-full mt-4" size="lg">
+                  Finalizar Compra
+                  <ArrowRight size={16} />
+                </Button>
+              </Link>
 
               <Link to="/books">
                 <Button variant="ghost" className="w-full mt-2" size="sm">

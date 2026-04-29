@@ -10,8 +10,9 @@ import OrdersPage from './pages/orders/OrdersPage'
 import OrderDetailPage from './pages/orders/OrderDetailPage'
 
 import BookFormPage from './pages/books/BookFormPage'
+import CheckoutPage from './pages/carts/CheckoutPage'
 
-
+//
 export default function App() {
   return (
     <Routes>
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="orders/:id" element={<OrderDetailPage />} />
 
         <Route path="books/new" element={<BookFormPage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
       </Route>
     </Routes>
   )
