@@ -12,7 +12,7 @@ export function useCart(customerId?: string, sessionId?: string) {
     queryKey: cartKeys.byIdentifier(customerId, sessionId),
     queryFn: () => cartsApi.getCart({ customerId, sessionId }).then(r => r.data),
     enabled: !!(customerId || sessionId),
-    retry: false, // não tenta novamente se não tiver carrinho ainda
+    retry: false,
   })
 }
 

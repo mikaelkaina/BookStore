@@ -35,6 +35,9 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
         builder.Property(c => c.ExpiresAt)
             .IsRequired();
 
+        builder.Property(c => c.CreatedAt)
+            .IsRequired();
+
         builder.OwnsMany(c => c.Items, item =>
         {
             item.ToTable("CartItems");
@@ -86,8 +89,5 @@ public sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
                     .HasDefaultValue("BRL");
             });
         });
-
-        builder.Property(c => c.CreatedAt)
-            .IsRequired();
     }
 }
