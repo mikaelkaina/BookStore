@@ -7,6 +7,7 @@ using BookStore.Application.Features.Books.Queries.GetBookById;
 using BookStore.Application.Features.Books.Queries.GetBooksByCategory;
 using BookStore.Application.Features.Books.Queries.GetBooksPaged;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
@@ -19,6 +20,7 @@ public sealed class BooksController : BaseController
         => _sender = sender;
 
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPaged(
         [FromQuery] string? searchTerm,
@@ -40,6 +42,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(
@@ -51,6 +54,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpGet("category/{categoryId:guid}")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByCategory(
@@ -63,6 +67,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -75,6 +80,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -96,6 +102,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpPatch("{id:guid}/price")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,6 +124,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpPatch("{id:guid}/stock/add")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,6 +146,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpPatch("{id:guid}/stock/decrement")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -159,6 +168,7 @@ public sealed class BooksController : BaseController
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(

@@ -4,10 +4,12 @@ using BookStore.Application.Features.Customers.Commands.UpdateCustomerProfile;
 using BookStore.Application.Features.Customers.Queries.GetCustomerByEmail;
 using BookStore.Application.Features.Customers.Queries.GetCustomerById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
 
+[Authorize]
 public sealed class CustomersController : BaseController
 {
     private readonly ISender _sender;
@@ -16,6 +18,7 @@ public sealed class CustomersController : BaseController
         => _sender = sender;
 
     [HttpGet("{id:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(
@@ -27,6 +30,7 @@ public sealed class CustomersController : BaseController
     }
 
     [HttpGet("email/{email}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByEmail(
@@ -38,6 +42,7 @@ public sealed class CustomersController : BaseController
     }
 
     [HttpPost]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
@@ -50,6 +55,7 @@ public sealed class CustomersController : BaseController
     }
 
     [HttpPut("{id:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -71,6 +77,7 @@ public sealed class CustomersController : BaseController
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(

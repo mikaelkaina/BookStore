@@ -1,9 +1,11 @@
 ﻿using BookStore.Domain.Entities;
+using BookStore.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Persistence;
 
-public sealed class AppDbContext : DbContext
+public sealed class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
