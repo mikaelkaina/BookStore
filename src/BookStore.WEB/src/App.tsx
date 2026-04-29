@@ -12,7 +12,6 @@ import OrderDetailPage from './pages/orders/OrderDetailPage'
 import BookFormPage from './pages/books/BookFormPage'
 import CheckoutPage from './pages/carts/CheckoutPage'
 
-//
 export default function App() {
   return (
     <Routes>

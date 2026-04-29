@@ -5,10 +5,12 @@ using BookStore.Application.Features.Carts.Commands.RemoveItemFromCart;
 using BookStore.Application.Features.Carts.Commands.UpdateItemQuantity;
 using BookStore.Application.Features.Carts.Queries.GetCart;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
 
+[Authorize(Roles = "Admin,Customer")]
 public sealed class CartsController : BaseController
 {
     private readonly ISender _sender;

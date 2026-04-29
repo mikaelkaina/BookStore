@@ -11,10 +11,12 @@ using BookStore.Application.Features.Orders.Queries.GetOrdersByCustomer;
 using BookStore.Application.Features.Orders.Queries.GetOrdersPaged;
 using BookStore.Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
 
+[Authorize]
 public sealed class OrdersController : BaseController
 {
     private readonly ISender _sender;
@@ -23,6 +25,7 @@ public sealed class OrdersController : BaseController
         => _sender = sender;
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPaged(
         [FromQuery] Guid? customerId,
@@ -38,6 +41,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(
@@ -49,6 +53,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpGet("customer/{customerId:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByCustomer(
@@ -61,6 +66,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,6 +79,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/payment/confirm")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -86,6 +93,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/processing/start")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,6 +107,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/ship")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -111,6 +120,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/deliver")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -123,6 +133,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/cancel")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -144,6 +155,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/discount")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -165,6 +177,7 @@ public sealed class OrdersController : BaseController
     }
 
     [HttpPatch("{id:guid}/shipping")]
+    [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
