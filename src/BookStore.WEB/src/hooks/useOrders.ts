@@ -20,19 +20,19 @@ export function useOrdersPaged(params: {
   })
 }
 
-export function useOrderById(id: string) {
-  return useQuery({
-    queryKey: orderKeys.detail(id),
-    queryFn: () => ordersApi.getById(id).then(r => r.data),
-    enabled: !!id,
-  })
-}
-
 export function useOrdersByCustomer(customerId: string) {
   return useQuery({
     queryKey: orderKeys.byCustomer(customerId),
     queryFn: () => ordersApi.getByCustomer(customerId).then(r => r.data),
     enabled: !!customerId,
+  })
+}
+
+export function useOrderById(id: string) {
+  return useQuery({
+    queryKey: orderKeys.detail(id),
+    queryFn: () => ordersApi.getById(id).then(r => r.data),
+    enabled: !!id,
   })
 }
 

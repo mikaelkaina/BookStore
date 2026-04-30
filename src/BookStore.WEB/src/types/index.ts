@@ -149,3 +149,25 @@ export interface Cart {
   createdAt: string;
   updatedAt?: string;
 }
+
+
+export interface AuthResponse {
+  accessToken: string
+  refreshToken: string
+  expiresAt: string
+  userId: string
+  email: string
+  firstName: string
+  lastName: string
+  customerId?: string
+  roles: string[]
+}
+
+export interface AuthUser {
+  userId: string
+  email: string
+  firstName: string
+  lastName: string
+  customerId?: string
+  roles: string[]
+}

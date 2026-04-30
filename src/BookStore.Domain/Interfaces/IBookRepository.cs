@@ -12,4 +12,6 @@ public interface IBookRepository : IRepository<Book>
 
     Task<bool> IsbnExistsAsync(Isbn isbn, Guid? excludeBookId = null, CancellationToken cancellationToken = default);
     Task<IEnumerable<Book>> GetByCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default);
+    Task<Book?> GetByIdForUpdateAsync(Guid id, CancellationToken cancellationToken = default);
 }
+

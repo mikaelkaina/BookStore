@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, ShoppingBag } from 'lucide-react'
 import { useCart, useClearCart } from '../../hooks/useCart'
 import { useCreateOrder } from '../../hooks/useOrders'
+import { useAuth } from '../../contexts/AuthContext'
 import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import EmptyState from '../../components/ui/EmptyState'
@@ -16,11 +17,10 @@ function getSessionId(): string {
   return sessionId
 }
 
-const TEMP_CUSTOMER_ID = localStorage.getItem('bookstore_customer_id') ?? ''
-
 export default function CheckoutPage() {
   const navigate = useNavigate()
   const sessionId = getSessionId()
+  const { user } = useAuth()
 
   const { data: cart, isLoading } = useCart(undefined, sessionId)
   const createOrder = useCreateOrder()
@@ -36,7 +36,6 @@ export default function CheckoutPage() {
     state: '',
     zipCode: '',
   })
-  const [customerId, setCustomerId] = useState(TEMP_CUSTOMER_ID)
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
@@ -47,8 +46,8 @@ export default function CheckoutPage() {
     e.preventDefault()
     setFormError('')
 
-    if (!customerId.trim()) {
-      setFormError('Informe o ID do cliente.')
+    if (!user?.customerId) {
+      setFormError('Usuário não identificado. Faça login novamente.')
       return
     }
 
@@ -58,10 +57,8 @@ export default function CheckoutPage() {
     }
 
     try {
-      localStorage.setItem('bookstore_customer_id', customerId)
-
       const order = await createOrder.mutateAsync({
-        customerId: customerId.trim(),
+        customerId: user.customerId,
         street: address.street.trim(),
         number: address.number.trim(),
         complement: address.complement.trim() || undefined,
@@ -75,10 +72,7 @@ export default function CheckoutPage() {
         })),
       })
 
-      // Limpa o carrinho após pedido criado com sucesso
       await clearCart.mutateAsync(cart.id)
-
-      // Gera nova sessão para o próximo carrinho
       localStorage.removeItem('bookstore_session')
 
       navigate(`/orders/${order.id}`)
@@ -116,23 +110,15 @@ export default function CheckoutPage() {
 
         <form onSubmit={handleSubmit} className="lg:col-span-2 flex flex-col gap-5">
 
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <h2 className="font-semibold text-gray-700 mb-4">Dados do Cliente</h2>
+          <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex items-center gap-3">
+            <div className="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-sm shrink-0">
+              {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                ID do Cliente <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                value={customerId}
-                onChange={e => setCustomerId(e.target.value)}
-                placeholder="Ex: 3fa85f64-5717-4562-b3fc-2c963f66afa6"
-                required
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono"
-              />
-              <p className="text-xs text-gray-400 mt-1">
-                Use o ID de um cliente cadastrado via API.
+              <p className="font-medium text-gray-800 text-sm">
+                {user?.firstName} {user?.lastName}
               </p>
+              <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
           </div>
 
@@ -244,16 +230,11 @@ export default function CheckoutPage() {
             <p className="text-red-500 text-sm">{formError}</p>
           )}
 
-          <Button
-            type="submit"
-            size="lg"
-            loading={createOrder.isPending}
-          >
+          <Button type="submit" size="lg" loading={createOrder.isPending}>
             Confirmar Pedido
           </Button>
         </form>
 
-        {/* Resumo */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 h-fit sticky top-4">
           <h2 className="font-semibold text-gray-700 mb-4">Resumo</h2>
 
