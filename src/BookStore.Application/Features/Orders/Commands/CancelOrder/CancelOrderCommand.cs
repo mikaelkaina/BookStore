@@ -5,4 +5,4 @@ namespace BookStore.Application.Features.Orders.Commands.CancelOrder;
 
 public sealed record CancelOrderCommand(
     Guid OrderId,
-    string Reason) : ICommand<Result>;
+    string? Reason) : ICommand<Result>;

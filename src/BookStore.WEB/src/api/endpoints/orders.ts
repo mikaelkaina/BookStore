@@ -40,7 +40,7 @@ export const ordersApi = {
     api.patch(`/orders/${id}/deliver`),
 
   cancel: (id: string, reason?: string) =>
-    api.patch(`/orders/${id}/cancel`, { orderId: id, reason }),
+  api.patch(`/orders/${id}/cancel`, { reason }),
 
   applyDiscount: (id: string, discountAmount: number) =>
     api.patch(`/orders/${id}/discount`, { orderId: id, discountAmount }),
