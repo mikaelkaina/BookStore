@@ -55,7 +55,7 @@ public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderComma
 
         foreach(var item in request.Items)
         {
-            var book = await _bookRepository.GetByIdAsync(item.BookId, cancellationToken);
+            var book = await _bookRepository.GetByIdForUpdateAsync(item.BookId, cancellationToken);
             if (book is null)
                 return Result.Failure<CreateOrderResponse>(
                     BookErrors.NotFound(item.BookId));

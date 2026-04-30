@@ -28,7 +28,7 @@ public sealed class BookRepository : IBookRepository
         .ToListAsync(cancellationToken);
 
     public async Task<Book?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        => await _context.Books.AsNoTracking().Include(b => b.Category).FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+        => await _context.Books.Include(b => b.Category).FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 
     public async Task<Book?> GetByIsbnAsync(Isbn isbn, CancellationToken cancellationToken = default)
         => await _context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Isbn.Value == isbn.Value, cancellationToken);
@@ -86,4 +86,8 @@ public sealed class BookRepository : IBookRepository
         _context.Books.Update(entity);
         return Task.CompletedTask;
     }
+
+    public async Task<Book?> GetByIdForUpdateAsync(Guid id, CancellationToken cancellationToken = default)
+    => await _context.Books
+        .FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 }
