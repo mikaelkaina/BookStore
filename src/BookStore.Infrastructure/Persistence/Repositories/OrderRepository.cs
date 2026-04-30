@@ -22,7 +22,6 @@ public sealed class OrderRepository : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetByCustomerIdAsync(Guid customerId, CancellationToken cancellationToken = default)
         => await _context.Orders
-        .AsNoTracking()
         .Include(o => o.Items)
         .Where(o => o.CustomerId == customerId)
         .OrderByDescending(o => o.CreatedAt)
@@ -30,20 +29,17 @@ public sealed class OrderRepository : IOrderRepository
 
     public async Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         => await _context.Orders
-        .AsNoTracking()
         .Include(o => o.Items)
         .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
 
     public async Task<Order?> GetByOrderNumberAsync(string orderNumber, CancellationToken cancellationToken = default)
          => await _context.Orders
-        .AsNoTracking()
         .Include(o => o.Items)
         .FirstOrDefaultAsync(o => o.OrderNumber == orderNumber, cancellationToken);
 
     public async Task<(IEnumerable<Order> Orders, int totalCount)> GetPagedAsync(Guid? customerId, OrderStatus? status, int page, int pageSize, CancellationToken cancellationToken)
     {
         var query = _context.Orders
-            .AsNoTracking()
             .Include(o => o.Items)
             .AsQueryable();
 

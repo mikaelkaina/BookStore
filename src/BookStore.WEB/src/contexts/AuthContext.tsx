@@ -30,7 +30,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Recupera sessão salva ao iniciar
   useEffect(() => {
     const savedUser = localStorage.getItem(STORAGE_KEYS.user)
     const accessToken = localStorage.getItem(STORAGE_KEYS.accessToken)

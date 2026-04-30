@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
 
+public sealed record CancelOrderRequest(string? Reason);
+
+
 [Authorize]
 public sealed class OrdersController : BaseController
 {
@@ -138,18 +141,11 @@ public sealed class OrdersController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Cancel(
-        Guid id,
-        [FromBody] CancelOrderCommand command,
-        CancellationToken cancellationToken)
+    Guid id,
+    [FromBody] CancelOrderRequest? request,
+    CancellationToken cancellationToken)
     {
-        if (id != command.OrderId)
-            return BadRequest(new ProblemDetails
-            {
-                Title = "Id mismatch.",
-                Detail = "The id in the route must match the id in the body.",
-                Status = StatusCodes.Status400BadRequest
-            });
-
+        var command = new CancelOrderCommand(id, request?.Reason);
         var result = await _sender.Send(command, cancellationToken);
         return HandleResult(result);
     }
