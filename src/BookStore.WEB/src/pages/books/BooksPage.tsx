@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 import { Search, SlidersHorizontal, Plus } from 'lucide-react'
 import { useBooksPaged } from '../../hooks/useBooks'
 import { useCategories } from '../../hooks/useCategories'
@@ -10,6 +11,7 @@ import Button from '../../components/ui/Button'
 import Badge from '../../components/ui/Badge'
 
 export default function BooksPage() {
+  const { isAdmin } = useAuth()
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [minPrice, setMinPrice] = useState('')
@@ -26,7 +28,7 @@ export default function BooksPage() {
     sortByPrice: sortByPrice || undefined,
     ascending,
     page,
-    pageSize: 12,
+    pageSize: 16,
   })
 
   const { data: categories } = useCategories()
@@ -46,17 +48,19 @@ export default function BooksPage() {
     setPage(1)
   }
 
-  return (
-    <div>
+  return ( 
+  <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Livros</h1>
-        <Link to="/books/new">
-          <Button>
-            <Plus size={16} />
-            Novo Livro
-          </Button>
-        </Link>
-      </div>
+        {isAdmin && (
+    <Link to="/books/new">
+      <Button>
+        <Plus size={16} />
+        Novo Livro
+      </Button>
+    </Link>
+  )}
+ </div>
 
       <form
         onSubmit={handleSearch}
@@ -156,12 +160,10 @@ export default function BooksPage() {
                 <div className="bg-indigo-50 h-48 flex items-center justify-center">
                   {book.coverImageUrl ? (
                     <img
-                      src={book.coverImageUrl}
-                      alt={book.title}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-indigo-200 text-5xl">📚</span>
+                    src={book.coverImageUrl}
+                    alt={book.title}
+                    className="h-full w-full object-contain p-2"/>
+                  ) : (<span className="text-indigo-200 text-5xl">📚</span>
                   )}
                 </div>
 
