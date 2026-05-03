@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 
     using var scope = app.Services.CreateScope();
     await SeedRolesAsync(scope.ServiceProvider);
-    await SeedRoleAsync(scope.ServiceProvider);
+    await SeedRoleAsync(scope.ServiceProvider, builder.Configuration);
 }
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -55,7 +55,7 @@ static async Task SeedRolesAsync(IServiceProvider services)
 
 }
 
-static async Task SeedRoleAsync(IServiceProvider services)
+static async Task SeedRoleAsync(IServiceProvider services, IConfiguration configuration)
 {
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
@@ -69,34 +69,37 @@ static async Task SeedRoleAsync(IServiceProvider services)
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 
-    const string adminEmail = "admin@bookstore.com";
+    var adminEmail = configuration["SeedAdmin:Email"];
+    var adminPassword = configuration["SeedAdmin:Password"];
+    var adminDocument = configuration["SeedAdmin:Document"];
+
+    if (string.IsNullOrEmpty(adminEmail) || string.IsNullOrEmpty(adminPassword))
+        return; 
+
     var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+    if (existingAdmin is not null) return;
 
-    if (existingAdmin is null)
+    var customerResult = Customer.Create(
+        "Admin", "BookStore", adminEmail,
+        phone: null, document: adminDocument);
+
+    if (customerResult.IsSuccess)
     {
-        var customerResult = Customer.Create(
-            "Admin", "BookStore", adminEmail,
-            phone: null, document: "529.982.247-25");
+        await customerRepository.AddAsync(customerResult.Value);
+        await unitOfWork.SaveChangesAsync();
 
-        if (customerResult.IsSuccess)
+        var adminUser = new ApplicationUser
         {
-            await customerRepository.AddAsync(customerResult.Value);
-            await unitOfWork.SaveChangesAsync();
+            UserName = adminEmail,
+            Email = adminEmail,
+            FirstName = "Admin",
+            LastName = "BookStore",
+            EmailConfirmed = true,
+            CustomerId = customerResult.Value.Id,
+        };
 
-            var adminUser = new ApplicationUser
-            {
-                UserName = adminEmail,
-                Email = adminEmail,
-                FirstName = "Admin",
-                LastName = "BookStore",
-                EmailConfirmed = true,
-                CustomerId = customerResult.Value.Id,
-            };
-
-            var result = await userManager.CreateAsync(adminUser, "Admin@123456");
-            if (result.Succeeded)
-                await userManager.AddToRoleAsync(adminUser, "Admin");
-        }
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (result.Succeeded)
+            await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
-
