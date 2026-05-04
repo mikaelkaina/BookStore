@@ -12,6 +12,7 @@ import OrdersPage from './pages/orders/OrdersPage'
 import OrderDetailPage from './pages/orders/OrderDetailPage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
+import PaymentPage from './pages/orders/PaymentPage'
 
 export default function App() {
   return (
@@ -55,6 +56,12 @@ export default function App() {
             <BookFormPage />
           </ProtectedRoute>
         } />
+
+        <Route path="orders/:id/payment" element={
+          <ProtectedRoute>
+            <PaymentPage />
+            </ProtectedRoute>
+          } />
 
       </Route>
     </Routes>
