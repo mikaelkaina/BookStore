@@ -23,9 +23,10 @@ if (app.Environment.IsDevelopment())
     {
         options.Title = "BookStore API";
         options.Theme = ScalarTheme.Purple;
-        options.WithHttpBearerAuthentication(bearer =>
+
+        options.AddHttpAuthentication("Bearer", auth =>
         {
-            bearer.Token = "seu-token-aqui";
+            auth.Token = "seu-token-aqui";
         });
     });
 
