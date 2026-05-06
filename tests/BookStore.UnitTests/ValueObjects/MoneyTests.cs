@@ -1,7 +1,7 @@
 ﻿using BookStore.Domain.ValueObjects;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.ValueObjects;
+namespace BookStore.DomainTests.ValueObjects;
 
 public class MoneyTests
 {

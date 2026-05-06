@@ -2,7 +2,7 @@
 using BookStore.Domain.ValueObjects;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Builders;
+namespace BookStore.DomainTests.Builders;
 
 public class OrderBuilder
 {

@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Entities;
 
-namespace BookStore.UnitTests.Builders;
+namespace BookStore.DomainTests.Builders;
 
 public class CartBuilder
 {

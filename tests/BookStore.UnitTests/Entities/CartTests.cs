@@ -1,8 +1,8 @@
 ﻿using BookStore.Domain.Entities;
-using BookStore.UnitTests.Builders;
+using BookStore.DomainTests.Builders;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Entities;
+namespace BookStore.DomainTests.Entities;
 
 public class CartTests
 {

@@ -1,7 +1,7 @@
 ﻿using BookStore.Domain.Common;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Common;
+namespace BookStore.DomainTests.Common;
 
 public class ResultTests
 {

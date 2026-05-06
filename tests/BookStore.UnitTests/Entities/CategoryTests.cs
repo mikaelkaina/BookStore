@@ -1,7 +1,7 @@
 ﻿using BookStore.Domain.Entities;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Entities;
+namespace BookStore.DomainTests.Entities;
 
 public class CategoryTests
 {
