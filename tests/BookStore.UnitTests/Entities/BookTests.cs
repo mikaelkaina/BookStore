@@ -2,10 +2,10 @@
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Events;
-using BookStore.UnitTests.Builders;
+using BookStore.DomainTests.Builders;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Entities;
+namespace BookStore.DomainTests.Entities;
 
 public class BookTests
 {

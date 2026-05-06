@@ -3,7 +3,7 @@ using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using FluentAssertions;
 
-namespace BookStore.UnitTests.Builders;
+namespace BookStore.DomainTests.Builders;
 
 public class BookBuilder
 {
