@@ -16,9 +16,9 @@ builder.Services.AddApplication();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+
+
+  app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
         options.Title = "BookStore API";
@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     await SeedRolesAsync(scope.ServiceProvider);
     await SeedRoleAsync(scope.ServiceProvider, builder.Configuration);
-}
+
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
