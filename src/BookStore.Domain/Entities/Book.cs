@@ -24,6 +24,7 @@ public sealed class Book : Entity
     public Category Category { get; private set; } = null!;
 
     private Book() { }
+
     private Book(string title, string author, string? description, Isbn isbn, Money price, int stockQuantity, int pageCount,
         string? coverImageUrl, string publisher, DateOnly publishedDate, BookFormat format, string language, Guid categoryId)
     {
@@ -40,7 +41,7 @@ public sealed class Book : Entity
         Format = format;
         Language = language;
         CategoryId = categoryId;
-        IsActive = true; // Default to active when created
+        IsActive = true; // Ativo por padrão quando criado
     }
 
     public static Result<Book> Create(string title, string author, string? description, string isbn, decimal price, int stockQuantity, 

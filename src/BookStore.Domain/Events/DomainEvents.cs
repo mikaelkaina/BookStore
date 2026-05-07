@@ -44,5 +44,3 @@ public sealed record OrderCancelledEvent(Guid OrderId, Guid CustomerId, string? 
     public Guid EventId { get; } = Guid.NewGuid();
     public DateTime OccurredAt { get; } = DateTime.UtcNow;
 }
-
-
