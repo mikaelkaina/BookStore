@@ -65,8 +65,8 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    permissions:
-      contents: none
+    permissions: 
+      contents: write
     runs-on: ubuntu-latest
     needs: build
     environment:
