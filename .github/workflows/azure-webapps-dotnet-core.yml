@@ -16,7 +16,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +38,14 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ./src/BookStore.API/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Install EF Core tools
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Run Migrations
+        run: dotnet ef database update --project ./src/BookStore.Infrastructure --startup-project ./src/BookStore.API
+        env:
+          DefaultConnection: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -51,7 +58,6 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
