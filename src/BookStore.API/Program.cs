@@ -36,7 +36,7 @@ var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 var strategy = db.Database.CreateExecutionStrategy();
 await strategy.ExecuteAsync(async () =>
 {
-    await db.SaveChangesAsync();
+    await db.Database.MigrateAsync();
 });
 
 await SeedRolesAsync(scope.ServiceProvider);
