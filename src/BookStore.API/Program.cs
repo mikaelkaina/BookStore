@@ -4,7 +4,9 @@ using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
 using BookStore.Infrastructure;
 using BookStore.Infrastructure.Identity;
+using BookStore.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +31,10 @@ app.MapScalarApiReference(options =>
 });
 
 using var scope = app.Services.CreateScope();
+
+var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+await db.Database.MigrateAsync();
+
 await SeedRolesAsync(scope.ServiceProvider);
 await SeedRoleAsync(scope.ServiceProvider, builder.Configuration);
 
