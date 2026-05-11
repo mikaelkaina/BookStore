@@ -54,7 +54,6 @@ export default function CategoriesPage() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Categorias</h1>
         <Button onClick={() => setShowForm(v => !v)}>
-          <Plus size={16} />
           Nova Categoria
         </Button>
       </div>
@@ -140,7 +139,6 @@ export default function CategoriesPage() {
                   className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                   title="Desativar"
                 >
-                  <Trash2 size={15} />
                 </button>
               </div>
             </div>
