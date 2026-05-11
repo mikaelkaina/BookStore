@@ -7,7 +7,6 @@ import {
   type ReactNode,
 } from 'react'
 import type { AuthUser, AuthResponse } from '../types'
-import { authApi } from '../api/endpoints/auth'
 
 interface AuthContextData {
   user: AuthUser | null

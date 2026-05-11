@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { useCategories, useCreateCategory, useDeleteCategory } from '../../hooks/useCategories'
 import Spinner from '../../components/ui/Spinner'
 import ErrorMessage from '../../components/ui/ErrorMessage'
