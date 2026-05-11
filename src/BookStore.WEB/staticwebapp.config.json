@@ -4,5 +4,12 @@
       "route": "/api/*",
       "rewrite": "https://bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net/api/*"
     }
-  ]
+  ],
+  "mimeTypes": {
+    ".js": "text/javascript",
+    ".mjs": "text/javascript",
+    ".css": "text/css",
+    ".json": "application/json",
+    ".wasm": "application/wasm"
+  }
 }
