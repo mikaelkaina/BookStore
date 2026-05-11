@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+  base: '/',
   plugins: [
     react(),
     tailwindcss(),
@@ -12,7 +13,7 @@ export default defineConfig({
       '/api': {
         target: 'https://localhost:7267',
         changeOrigin: true,
-        secure: false, // ignora certificado SSL em dev
+        secure: false, 
       }
     }
   }

@@ -5,6 +5,10 @@
       "rewrite": "https://bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net/api/*"
     }
   ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/*.js", "/*.css", "/*.json"]
+  },
   "mimeTypes": {
     ".js": "text/javascript",
     ".mjs": "text/javascript",
