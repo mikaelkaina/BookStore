@@ -1,0 +1,8 @@
+{
+  "routes": [
+    {
+      "route": "/api/*",
+      "rewrite": "https://bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net/api/*"
+    }
+  ]
+}
