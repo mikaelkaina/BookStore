@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://jolly-flower-02868870f7.azurestaticapps.net")
+        policy.WithOrigins("https://jolly-flower-02868870f.7.azurestaticapps.net")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
