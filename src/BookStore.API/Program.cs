@@ -16,6 +16,16 @@ builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://jolly-flower-02868870f7.azurestaticapps.net")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.MapOpenApi();
@@ -44,6 +54,9 @@ await SeedRoleAsync(scope.ServiceProvider, builder.Configuration);
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
@@ -111,5 +124,3 @@ static async Task SeedRoleAsync(IServiceProvider services, IConfiguration config
             await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
-
-//

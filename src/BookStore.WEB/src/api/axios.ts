@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,7 +28,7 @@ api.interceptors.response.use(
 
       if (accessToken && refreshToken) {
         try {
-          const { data } = await axios.post('/api/auth/refresh', {
+          const { data } = await axios.post('https://bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net/api/auth/refresh', {
             accessToken,
             refreshToken,
           })
