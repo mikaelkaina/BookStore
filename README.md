@@ -44,22 +44,8 @@ BookStore.Domain          ← Entidades, Value Objects, Domain Events
 BookStore.Application     ← Use Cases, CQRS, DTOs, Validators
 BookStore.Infrastructure  ← EF Core, Repositórios, Identity, JWT
 BookStore.API             ← Controllers, Middlewares, Program.cs
-BookStore.UnitTests       ← Testes unitários do Domain
+BookStore.UnitTests       ← Testes unitários do Domain/Application
 ```
-
-┌──────────────────────────────────────────┐
-│                  API                     │
-│  ┌────────────────────────────────────┐  │
-│  │           Application              │  │
-│  │  ┌──────────────────────────────┐  │  │
-│  │  │         Infrastructure       │  │  │
-│  │  │  ┌────────────────────────┐  │  │  │
-│  │  │  │        Domain          │  │  │  │
-│  │  │  └────────────────────────┘  │  │  │
-│  │  └──────────────────────────────┘  │  │
-│  └────────────────────────────────────┘  │
-└──────────────────────────────────────────┘
-
 ---
 
 ##  Tecnologias
@@ -163,11 +149,19 @@ Novos tokens → request original reenviada
 ##  Fluxo Principal
 
 Usuário navega pelos livros sem login
+
 Tenta adicionar ao carrinho → redirecionado para login
+
 Faz login ou se cadastra
+
 Adiciona livros ao carrinho
+
 Finaliza compra informando endereço de entrega
+
 Preenche dados do cartão na tela de pagamento
+
 Pedido criado com status Pending
+
 Admin confirma pagamento → Processing → Enviado → Entregue
+
 Customer acompanha status em tempo real com linha do tempo
