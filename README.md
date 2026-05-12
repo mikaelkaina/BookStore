@@ -1,4 +1,4 @@
-# 📚 BookStore — Loja Virtual de Livros Fullstack
+# BookStore — Loja Virtual de Livros Fullstack
 
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=dotnet)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react)
