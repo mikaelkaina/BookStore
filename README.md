@@ -19,8 +19,7 @@ SPA em React com TypeScript.
 ## 🖼️ Screenshots
 
 | Listagem de Livros | Detalhes do Livro |
-|---|---|
-| <img width="1919" height="1039" alt="Captura de tela 2026-05-12 161958" src="https://github.com/user-attachments/assets/62a87774-a18e-4288-937a-9f70254d873e" />) 
+![image alt](https://github.com/mikaelkaina/BookStore/blob/master/images/Captura%20de%20tela%202026-05-12%20161958.png?raw=true)
 | ![detail](./docs/screenshots/detail.png) |
 
 | Carrinho | Pedido |
