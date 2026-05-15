@@ -110,7 +110,7 @@ public sealed class CartItem : Entity
         Quantity = quantity; TotalPrice = unitPrice.Multiply(quantity);
     }
 
-    internal static CartItem Create(Guid cartId, Guid bookId, string bookTitle,
+    public static CartItem Create(Guid cartId, Guid bookId, string bookTitle,
         string? coverUrl, Money unitPrice, int quantity) =>
         new(cartId, bookId, bookTitle, coverUrl, unitPrice, quantity);
 
