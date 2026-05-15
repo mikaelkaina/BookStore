@@ -5,4 +5,5 @@ namespace BookStore.Application.Features.Auth.Commands.Login;
 
 public sealed record LoginCommand(
     string Email,
-    string Password) : ICommand<Result<AuthResponse>>;
+    string Password,
+    string? GuestSessionId = null) : ICommand<Result<AuthResponse>>;

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers;
 
-[Authorize(Roles = "Admin,Customer")]
 public sealed class CartsController : BaseController
 {
     private readonly ISender _sender;
@@ -19,6 +18,7 @@ public sealed class CartsController : BaseController
         => _sender = sender;
 
     [HttpGet]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetCart(
@@ -32,6 +32,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpPost("items")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -44,6 +45,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpDelete("{cartId:guid}/items/{bookId:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveItem(
@@ -57,6 +59,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpPatch("{cartId:guid}/items/{bookId:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -79,6 +82,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpDelete("{cartId:guid}")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Clear(
@@ -90,6 +94,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpPost("{cartId:guid}/checkout")]
+    [Authorize(Roles = "Admin,Customer")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
