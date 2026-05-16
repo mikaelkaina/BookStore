@@ -13,9 +13,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/BookStore.API/Controllers/CartsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.API/Controllers/CartsController.cs" afterDir="false" />
-    </list>
+    <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +25,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN",
+      "assignee": "mikaelkaina",
+      "author": "mikaelkaina"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "mikaelkaina",
+    "author": "mikaelkaina"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/mikaelkaina/BookStore.git",
@@ -37,6 +49,7 @@
     <commands />
     <urls />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="Toolset" />
   </component>
@@ -101,20 +114,36 @@
       <updated>1778857134361</updated>
       <workItem from="1778857149359" duration="1541000" />
       <workItem from="1778862795209" duration="3275000" />
-      <workItem from="1778966803269" duration="1023000" />
+      <workItem from="1778966803269" duration="1175000" />
     </task>
+    <task id="LOCAL-00001" summary="liberação do gerenciamento de cart para guest">
+      <option name="closed" value="true" />
+      <created>1778967887063</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1778967887064</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -122,6 +151,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="liberação do gerenciamento de cart para guest" />
+    <option name="LAST_COMMIT_MESSAGE" value="liberação do gerenciamento de cart para guest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
