@@ -30,11 +30,7 @@ export default function App() {
             <CategoriesPage />
           </ProtectedRoute>
         } />
-        <Route path="cart" element={
-          <ProtectedRoute>
-            <CartPage />
-          </ProtectedRoute>
-        } />
+        <Route path="cart" element={<CartPage />} />
         <Route path="checkout" element={
           <ProtectedRoute>
             <CheckoutPage />
