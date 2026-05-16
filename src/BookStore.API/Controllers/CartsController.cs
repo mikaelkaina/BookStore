@@ -45,7 +45,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpDelete("{cartId:guid}/items/{bookId:guid}")]
-    [Authorize(Roles = "Admin,Customer")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> RemoveItem(
@@ -59,7 +59,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpPatch("{cartId:guid}/items/{bookId:guid}")]
-    [Authorize(Roles = "Admin,Customer")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpDelete("{cartId:guid}")]
-    [Authorize(Roles = "Admin,Customer")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Clear(
@@ -94,7 +94,7 @@ public sealed class CartsController : BaseController
     }
 
     [HttpPost("{cartId:guid}/checkout")]
-    [Authorize(Roles = "Admin,Customer")]
+    [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

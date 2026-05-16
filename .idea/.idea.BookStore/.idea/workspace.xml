@@ -15,11 +15,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/src/BookStore.API/Controllers/CartsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.API/Controllers/CartsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommandHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookStore.Domain/Entities/Cart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Domain/Entities/Cart.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookStore.Domain/Interfaces/ICartRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Domain/Interfaces/ICartRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BookStore.Infrastructure/Persistence/Repositories/CartRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Infrastructure/Persistence/Repositories/CartRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +27,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/mikaelkaina/BookStore.git",
+    "accountId": "93c791d9-fcad-4220-aea7-98067e0baf49"
+  }
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Toolset" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -66,6 +70,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\dev\\BookStore\\src\\BookStore.WEB\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -96,6 +101,7 @@
       <updated>1778857134361</updated>
       <workItem from="1778857149359" duration="1541000" />
       <workItem from="1778862795209" duration="3275000" />
+      <workItem from="1778966803269" duration="1023000" />
     </task>
     <servers />
   </component>
