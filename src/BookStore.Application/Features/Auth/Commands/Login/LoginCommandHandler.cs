@@ -70,19 +70,14 @@ public sealed class LoginCommandHandler
         if (customerCart is null)
         {
             guestCart.AssignToCustomer(customerId);
+            await _cartRepository.UpdateAsync(guestCart, cancellationToken);
         }
         else
         {
-            foreach (var guestItem in guestCart.Items)
-            {
-                var existing = customerCart.Items.FirstOrDefault(x => x.BookId == guestItem.BookId);
-
-                if (existing is null)
-                {
-                    await _cartRepository.AddItemDirectAsync(customerCart.Id, guestItem, cancellationToken);
-                }
-            }
+            foreach(var guestItem in guestCart.Items)
+                customerCart.MergerItem(guestItem);
             
+            await _cartRepository.UpdateAsync(customerCart, cancellationToken);
             await _cartRepository.DeleteAsync(guestCart, cancellationToken);
         }
         
