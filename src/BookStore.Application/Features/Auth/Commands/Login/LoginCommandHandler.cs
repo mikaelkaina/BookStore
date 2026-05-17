@@ -79,13 +79,11 @@ public sealed class LoginCommandHandler
         }
         else
         {
-            // Já tem carrinho: merge item a item usando MergeItem da entidade
             foreach (var guestItem in guestCart.Items)
                 customerCart.MergeItem(guestItem);
 
             await _cartRepository.UpdateAsync(customerCart, cancellationToken);
 
-            // Deleta o guest por Id (com tracking interno no repositório)
             await _cartRepository.DeleteByIdAsync(guestCart.Id, cancellationToken);
         }
 
