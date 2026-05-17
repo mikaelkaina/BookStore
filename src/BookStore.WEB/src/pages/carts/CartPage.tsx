@@ -1,3 +1,4 @@
+//import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Trash2, ShoppingCart, ArrowRight, BookOpen } from 'lucide-react'
 import {
@@ -6,30 +7,23 @@ import {
     useUpdateCartQuantity,
     useClearCart,
 } from '../../hooks/useCart'
-import { useAuth } from '../../contexts/AuthContext'
 import Spinner from '../../components/ui/Spinner'
 import Button from '../../components/ui/Button'
 import EmptyState from '../../components/ui/EmptyState'
 
-const GUEST_SESSION_KEY = 'bookstore_session'
-
 function getSessionId(): string {
-    let sessionId = localStorage.getItem(GUEST_SESSION_KEY)
+    let sessionId = localStorage.getItem('bookstore_session')
     if (!sessionId) {
         sessionId = crypto.randomUUID()
-        localStorage.setItem(GUEST_SESSION_KEY, sessionId)
+        localStorage.setItem('bookstore_session', sessionId)
     }
     return sessionId
 }
 
 export default function CartPage() {
-    const { user, isAuthenticated } = useAuth()
+    const sessionId = getSessionId()
 
-    // Se logado, busca pelo customerId; se guest, busca pelo sessionId
-    const customerId = isAuthenticated ? user?.customerId ?? undefined : undefined
-    const sessionId = isAuthenticated ? undefined : getSessionId()
-
-    const { data: cart, isLoading } = useCart(customerId, sessionId)
+    const { data: cart, isLoading } = useCart(undefined, sessionId)
     const removeItem = useRemoveFromCart()
     const updateQuantity = useUpdateCartQuantity()
     const clearCart = useClearCart()
