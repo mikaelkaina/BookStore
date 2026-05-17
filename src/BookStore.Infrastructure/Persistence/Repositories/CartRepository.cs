@@ -32,21 +32,7 @@ public sealed class CartRepository : ICartRepository
         => await _context.Carts
         .Include(c => c.Items)
         .FirstOrDefaultAsync(c => c.SessionId == sessionId, cancellationToken);
-
-    public async Task AddItemDirectAsync(Guid cartId, CartItem item, CancellationToken cancellationToken = default)
-    {
-        var copy = CartItem.Create(
-            cartId,
-            item.BookId,
-            item.BookTitle,
-            item.BookCoverUrl,
-            item.UnitPrice,
-            item.Quantity
-        );
-        
-        await _context.Set<CartItem>().AddAsync(copy, cancellationToken);
-    }
-
+    
     public Task UpdateAsync(Cart entity, CancellationToken cancellationToken = default)
     {
         _context.Carts.Update(entity);

@@ -15,6 +15,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommandHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Application/Features/Auth/Commands/Login/LoginCommandHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookStore.Domain/Entities/Cart.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Domain/Entities/Cart.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookStore.Domain/Interfaces/ICartRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Domain/Interfaces/ICartRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BookStore.Infrastructure/Persistence/Repositories/CartRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/BookStore.Infrastructure/Persistence/Repositories/CartRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +123,7 @@
       <workItem from="1778966803269" duration="1175000" />
       <workItem from="1778979698996" duration="1306000" />
       <workItem from="1778982607195" duration="973000" />
+      <workItem from="1779001991694" duration="764000" />
     </task>
     <task id="LOCAL-00001" summary="liberação do gerenciamento de cart para guest">
       <option name="closed" value="true" />
