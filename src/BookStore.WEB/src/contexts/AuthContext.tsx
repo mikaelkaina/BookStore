@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem(STORAGE_KEYS.accessToken)
     localStorage.removeItem(STORAGE_KEYS.refreshToken)
     localStorage.removeItem(STORAGE_KEYS.user)
-    localStorage.removeItem('bookstore_session')
     setUser(null)
   }, [])
 
