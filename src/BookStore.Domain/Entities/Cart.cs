@@ -89,7 +89,7 @@ public sealed class Cart : Entity
     public void AssignToCustomer(Guid customerId) { CustomerId = customerId; SetUpdatedAt(); }
     public bool IsExpired => DateTime.UtcNow > ExpiresAt;
 
-    public void MergerItem(CartItem item)
+    public void MergeItem(CartItem item)
     {
         var existing = _items.FirstOrDefault(i => i.BookId == item.BookId);
         if(existing is not null)

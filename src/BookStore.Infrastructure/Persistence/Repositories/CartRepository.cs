@@ -38,4 +38,20 @@ public sealed class CartRepository : ICartRepository
         _context.Carts.Update(entity);
         return Task.CompletedTask;
     }
+
+    public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        var cart = await _context.Carts
+            .Include(c => c.Items)
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+
+        if (cart is not null)
+            _context.Carts.Remove(cart);
+    }
+
+    public async Task<Cart?> GetBySessionIdNoTrackingAsync(string sessionId, CancellationToken cancellationToken = default)
+       => await _context.Carts
+           .AsNoTracking()
+           .Include(c => c.Items)
+           .FirstOrDefaultAsync(c => c.SessionId == sessionId, cancellationToken);
 }
