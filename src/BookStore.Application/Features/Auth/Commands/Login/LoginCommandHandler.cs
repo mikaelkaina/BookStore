@@ -61,26 +61,34 @@ public sealed class LoginCommandHandler
             roles));
     }
 
-    private async Task MergeGuestCartAsync(string sessionId, Guid customerId, CancellationToken cancellationToken)
+    private async Task MergeGuestCartAsync(
+       string sessionId,
+       Guid customerId,
+       CancellationToken cancellationToken)
     {
-        var guestCart = await _cartRepository.GetBySessionIdAsync(sessionId, cancellationToken);
-        if(guestCart is null || !guestCart.Items.Any()) return;
+        var guestCart = await _cartRepository.GetBySessionIdNoTrackingAsync(sessionId, cancellationToken);
+        if (guestCart is null || !guestCart.Items.Any()) return;
 
         var customerCart = await _cartRepository.GetByCustomerIdAsync(customerId, cancellationToken);
+
         if (customerCart is null)
         {
-            guestCart.AssignToCustomer(customerId);
-            await _cartRepository.UpdateAsync(guestCart, cancellationToken);
+            var trackedGuestCart = await _cartRepository.GetBySessionIdAsync(sessionId, cancellationToken);
+            trackedGuestCart!.AssignToCustomer(customerId);
+            await _cartRepository.UpdateAsync(trackedGuestCart, cancellationToken);
         }
         else
         {
-            foreach(var guestItem in guestCart.Items)
-                customerCart.MergerItem(guestItem);
-            
+            // Já tem carrinho: merge item a item usando MergeItem da entidade
+            foreach (var guestItem in guestCart.Items)
+                customerCart.MergeItem(guestItem);
+
             await _cartRepository.UpdateAsync(customerCart, cancellationToken);
-            await _cartRepository.DeleteAsync(guestCart, cancellationToken);
+
+            // Deleta o guest por Id (com tracking interno no repositório)
+            await _cartRepository.DeleteByIdAsync(guestCart.Id, cancellationToken);
         }
-        
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
