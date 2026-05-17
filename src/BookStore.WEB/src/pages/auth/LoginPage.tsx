@@ -20,24 +20,30 @@ export default function LoginPage() {
     setForm(v => ({ ...v, [e.target.name]: e.target.value }))
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault()
+        setError('')
+        setLoading(true)
 
-    try {
-      const { data } = await authApi.login({
-        email: form.email,
-        password: form.password,
-      })
-      login(data)
-      navigate(from, { replace: true })
-    } catch {
-      setError('Email ou senha incorretos.')
-    } finally {
-      setLoading(false)
+        const guestSessionId = localStorage.getItem('bookstore_session')
+
+        try {
+            const { data } = await authApi.login({
+                email: form.email,
+                password: form.password,
+                guestSessionId,
+            })
+
+            localStorage.removeItem('bookstore_session')
+
+            login(data)
+            navigate(from, { replace: true })
+        } catch {
+            setError('Email ou senha incorretos.')
+        } finally {
+            setLoading(false)
+        }
     }
-  }
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center">

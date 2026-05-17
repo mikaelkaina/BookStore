@@ -7,6 +7,7 @@ import Spinner from '../../components/ui/Spinner'
 import ErrorMessage from '../../components/ui/ErrorMessage'
 import Button from '../../components/ui/Button'
 import Badge from '../../components/ui/Badge'
+import { useAuth } from '../../contexts/AuthContext'
 
 function getSessionId(): string {
   let sessionId = localStorage.getItem('bookstore_session')
@@ -25,24 +26,27 @@ export default function BookDetailPage() {
   const [cartError, setCartError] = useState('')
 
   const { data: book, isLoading, isError } = useBookById(id!)
-  const addToCart = useAddToCart()
+    const addToCart = useAddToCart()
 
-  async function handleAddToCart() {
-    if (!book) return
-    setCartError('')
+    const { user, isAuthenticated } = useAuth()
 
-    try {
-      await addToCart.mutateAsync({
-        sessionId: getSessionId(),
-        bookId: book.id,
-        quantity,
-      })
-      setAddedToCart(true)
-      setTimeout(() => setAddedToCart(false), 3000)
-    } catch {
-      setCartError('Erro ao adicionar ao carrinho. Tente novamente.')
+    async function handleAddToCart() {
+        if (!book) return
+        setCartError('')
+
+        try {
+            await addToCart.mutateAsync({
+                customerId: isAuthenticated ? user?.customerId ?? undefined : undefined,
+                sessionId: isAuthenticated ? undefined : getSessionId(),
+                bookId: book.id,
+                quantity,
+            })
+            setAddedToCart(true)
+            setTimeout(() => setAddedToCart(false), 3000)
+        } catch {
+            setCartError('Erro ao adicionar ao carrinho. Tente novamente.')
+        }
     }
-  }
 
   if (isLoading) return <Spinner />
   if (isError || !book) return <ErrorMessage message="Livro não encontrado." />

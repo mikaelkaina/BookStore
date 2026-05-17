@@ -65,8 +65,8 @@ public sealed class LoginCommandHandler
     {
         var guestCart = await _cartRepository.GetBySessionIdAsync(sessionId, cancellationToken);
         if(guestCart is null || !guestCart.Items.Any()) return;
-        
-        var customerCart = await _cartRepository.GetBySessionIdAsync(sessionId, cancellationToken);
+
+        var customerCart = await _cartRepository.GetByCustomerIdAsync(customerId, cancellationToken);
         if (customerCart is null)
         {
             guestCart.AssignToCustomer(customerId);
