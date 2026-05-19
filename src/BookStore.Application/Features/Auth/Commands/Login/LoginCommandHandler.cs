@@ -31,12 +31,12 @@ public sealed class LoginCommandHandler
         var user = await _userManager.FindByEmailAsync(request.Email);
         if (user is null)
             return Result.Failure<AuthResponse>(
-                new Error("Auth.InvalidCredentials", "Email or password is incorrect."));
+                Error.InvalidCredentials());
 
         var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
         if (!isPasswordValid)
             return Result.Failure<AuthResponse>(
-                new Error("Auth.InvalidCredentials", "Email or password is incorrect."));
+                Error.InvalidCredentials());
 
         if (!string.IsNullOrEmpty(request.GuestSessionId) && user.CustomerId.HasValue)
             await MergeGuestCartAsync(request.GuestSessionId, user.CustomerId.Value, cancellationToken);
@@ -70,7 +70,6 @@ public sealed class LoginCommandHandler
         if (guestCart is null || !guestCart.Items.Any()) return;
 
         var customerCart = await _cartRepository.GetByCustomerIdAsync(customerId, cancellationToken);
-
         if (customerCart is null)
         {
             var trackedGuestCart = await _cartRepository.GetBySessionIdAsync(sessionId, cancellationToken);
