@@ -38,7 +38,7 @@ export default function LoginPage() {
 
             localStorage.removeItem('bookstore_session')
             login(data)
-            await queryClient.invalidateQueries({ queryKey: cartKeys.all })
+            queryClient.removeQueries({ queryKey: cartKeys.all })
             navigate(from, { replace: true })
         } catch {
             setError('Email ou senha incorretos.')
