@@ -13,4 +13,7 @@ public sealed record Error(string Code, string Description)
 
     public static Error Conflict(string code, string description) =>
         new(code, description);
+    
+    public static Error InvalidCredentials() =>
+        new ("Auth.invalid_credentials", "Email or password is incorrect.");
 }
