@@ -1,24 +1,26 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { BookOpen } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query'
 import { authApi } from '../../api/endpoints/auth'
 import { useAuth } from '../../contexts/AuthContext'
+import { cartKeys } from '../../hooks/useCart'
 import Button from '../../components/ui/Button'
 
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { login } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
+    const { login } = useAuth()
+    const queryClient = useQueryClient()
+    const from = (location.state as any)?.from?.pathname ?? '/'
 
-  const from = (location.state as any)?.from?.pathname ?? '/'
+    const [form, setForm] = useState({ email: '', password: '' })
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
-  const [form, setForm] = useState({ email: '', password: '' })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm(v => ({ ...v, [e.target.name]: e.target.value }))
-  }
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setForm(v => ({ ...v, [e.target.name]: e.target.value }))
+    }
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -35,8 +37,8 @@ export default function LoginPage() {
             })
 
             localStorage.removeItem('bookstore_session')
-
             login(data)
+            await queryClient.invalidateQueries({ queryKey: cartKeys.all })
             navigate(from, { replace: true })
         } catch {
             setError('Email ou senha incorretos.')

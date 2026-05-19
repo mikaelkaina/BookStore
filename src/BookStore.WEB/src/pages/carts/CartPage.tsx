@@ -25,7 +25,6 @@ function getSessionId(): string {
 export default function CartPage() {
     const { user, isAuthenticated } = useAuth()
 
-    // Se logado, busca pelo customerId; se guest, busca pelo sessionId
     const customerId = isAuthenticated ? user?.customerId ?? undefined : undefined
     const sessionId = isAuthenticated ? undefined : getSessionId()
 
