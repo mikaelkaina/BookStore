@@ -19,12 +19,13 @@ function getSessionId(): string {
 
 export default function CheckoutPage() {
   const navigate = useNavigate()
-  const sessionId = getSessionId()
-  const { user } = useAuth()
 
-  const { data: cart, isLoading } = useCart(undefined, sessionId)
   const createOrder = useCreateOrder()
   const clearCart = useClearCart()
+  const { user, isAuthenticated } = useAuth()
+  const customerId = isAuthenticated ? user?.customerId ?? undefined : undefined
+  const sessionId = isAuthenticated ? undefined : getSessionId()
+  const { data: cart, isLoading } = useCart(customerId, sessionId)
 
   const [formError, setFormError] = useState('')
   const [address, setAddress] = useState({
