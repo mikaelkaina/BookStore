@@ -83,7 +83,6 @@ public sealed class LoginCommandHandler
                 customerCart.MergeItem(guestItem);
 
             await _cartRepository.UpdateAsync(customerCart, cancellationToken);
-
             await _cartRepository.DeleteByIdAsync(guestCart.Id, cancellationToken);
         }
 
