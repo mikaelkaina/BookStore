@@ -52,7 +52,6 @@ public class OrderBuilder
             addItemResult.IsSuccess.Should().BeTrue();
         }
 
-        // força status
         typeof(Order)
             .GetProperty("Status")!
             .SetValue(order, _status);
