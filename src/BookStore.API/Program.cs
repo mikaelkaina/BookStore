@@ -124,5 +124,3 @@ static async Task SeedRoleAsync(IServiceProvider services, IConfiguration config
             await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 }
-
-//
