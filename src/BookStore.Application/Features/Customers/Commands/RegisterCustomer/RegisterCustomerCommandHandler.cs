@@ -46,7 +46,7 @@ public sealed class RegisterCustomerCommandHandler
         if (customerResult.IsFailure)
             return Result.Failure<RegisterCustomerResponse>(customerResult.Error);
 
-        await _customerRepository.AddAsync(customerResult.Value, cancellationToken);
+        _customerRepository.Add(customerResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(customerResult.Value.ToRegisterResponse());

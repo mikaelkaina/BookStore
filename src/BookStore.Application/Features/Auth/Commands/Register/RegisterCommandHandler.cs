@@ -44,7 +44,7 @@ public sealed class RegisterCommandHandler
         if (customerResult.IsFailure)
             return Result.Failure<AuthResponse>(customerResult.Error);
 
-        await _customerRepository.AddAsync(customerResult.Value, cancellationToken);
+        _customerRepository.Add(customerResult.Value, cancellationToken);
 
         var refreshToken = _jwtService.GenerateRefreshToken();
 

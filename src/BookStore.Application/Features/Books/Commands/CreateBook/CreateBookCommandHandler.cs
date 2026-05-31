@@ -61,7 +61,7 @@ public sealed class CreateBookCommandHandler
         if (bookResult.IsFailure)
             return Result.Failure<CreateBookResponse>(bookResult.Error);
 
-        await _bookRepository.AddAsync(bookResult.Value, cancellationToken);
+        _bookRepository.Add(bookResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(bookResult.Value.ToCreateResponse(category.Name));

@@ -10,8 +10,9 @@ public sealed class BookRepository : IBookRepository
     private readonly AppDbContext _context;
     public BookRepository(AppDbContext context)
         => _context = context;
-    public async Task AddAsync(Book entity, CancellationToken cancellationToken = default)
-        => await _context.Books.AddAsync(entity, cancellationToken);
+
+    public void Add(Book entity, CancellationToken cancellationToken = default)
+        => _context.Books.Add(entity);
 
     public Task DeleteAsync(Book entity, CancellationToken cancellationToken = default)
     {

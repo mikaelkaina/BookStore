@@ -35,7 +35,7 @@ public sealed class CreateCategoryCommandHandler
                 Error.Conflict("Category.SlugExists",
                     $"A category with name '{request.Name}' already exists."));
 
-        await _categoryRepository.AddAsync(categoryResult.Value, cancellationToken);
+        _categoryRepository.Add(categoryResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(categoryResult.Value.ToCreateResponse());

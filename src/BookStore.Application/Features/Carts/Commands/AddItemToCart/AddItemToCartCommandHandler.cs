@@ -66,7 +66,7 @@ public sealed record AddItemToCartCommandHandler : IRequestHandler<AddItemToCart
             return Result.Failure<AddItemToCartResponse>(result.Error);
 
         if (isNew)
-            await _cartRepository.AddAsync(cart, cancellationToken);
+             _cartRepository.Add(cart, cancellationToken);
         else
             await _cartRepository.UpdateAsync(cart, cancellationToken);
 
