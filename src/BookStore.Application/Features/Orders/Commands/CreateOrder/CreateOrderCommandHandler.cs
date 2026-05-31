@@ -71,7 +71,7 @@ public sealed class CreateOrderCommandHandler : IRequestHandler<CreateOrderComma
             await _bookRepository.UpdateAsync(book, cancellationToken);
         }
 
-        await _orderRepository.AddAsync(order, cancellationToken);
+        _orderRepository.Add(order, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(order.ToCreateResponse());

@@ -11,8 +11,8 @@ public sealed class CategoryRepository : ICategoryRepository
     public CategoryRepository(AppDbContext context)
         => _context = context;
 
-    public async Task AddAsync(Category entity, CancellationToken cancellationToken = default)
-        => await _context.Categories.AddAsync(entity, cancellationToken);
+    public void Add(Category entity, CancellationToken cancellationToken = default)
+        => _context.Categories.Add(entity);
     public Task DeleteAsync(Category entity, CancellationToken cancellationToken = default)
     {
         _context.Categories.Remove(entity);

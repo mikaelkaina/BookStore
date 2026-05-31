@@ -10,8 +10,8 @@ public sealed class CartRepository : ICartRepository
     public CartRepository(AppDbContext context)
         => _context = context;
 
-    public async Task AddAsync(Cart entity, CancellationToken cancellationToken = default)
-        => await _context.Carts.AddAsync(entity, cancellationToken);
+    public void Add(Cart entity, CancellationToken cancellationToken = default)
+        => _context.Carts.Add(entity);
     public Task DeleteAsync(Cart entity, CancellationToken cancellationToken = default)
     {
         _context.Carts.Remove(entity);

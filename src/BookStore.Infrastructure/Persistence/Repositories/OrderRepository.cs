@@ -11,8 +11,8 @@ public sealed class OrderRepository : IOrderRepository
     public OrderRepository(AppDbContext context)
         => _context = context;
 
-    public async Task AddAsync(Order entity, CancellationToken cancellationToken = default)
-        => await _context.Orders.AddAsync(entity, cancellationToken);
+    public void Add(Order entity, CancellationToken cancellationToken = default)
+        => _context.Orders.Add(entity);
 
     public Task DeleteAsync(Order entity, CancellationToken cancellationToken = default)
     {
