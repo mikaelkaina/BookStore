@@ -45,7 +45,7 @@ public class RegisterCustomerCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
 
         _customerRepository.Verify(x =>
-            x.AddAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Once);
+            x.Add(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Once);
 
         _unitOfWork.Verify(x =>
             x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -68,7 +68,7 @@ public class RegisterCustomerCommandHandlerTests
         result.IsFailure.Should().BeTrue();
 
         _customerRepository.Verify(x =>
-            x.AddAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
+            x.Add(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -92,7 +92,7 @@ public class RegisterCustomerCommandHandlerTests
         result.IsFailure.Should().BeTrue();
 
         _customerRepository.Verify(x =>
-            x.AddAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
+            x.Add(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class RegisterCustomerCommandHandlerTests
             "Silva",
             "email@email.com",
             null,
-            "11111111111", // CPF inválido
+            "11111111111",
             null
         );
 
@@ -116,6 +116,6 @@ public class RegisterCustomerCommandHandlerTests
         result.IsFailure.Should().BeTrue();
 
         _customerRepository.Verify(x =>
-            x.AddAsync(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
+            x.Add(It.IsAny<Customer>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

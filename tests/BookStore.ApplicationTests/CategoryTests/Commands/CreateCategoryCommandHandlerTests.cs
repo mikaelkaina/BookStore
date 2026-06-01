@@ -37,7 +37,7 @@ public class CreateCategoryCommandHandlerTests
         result.IsSuccess.Should().BeTrue();
 
         _categoryRepository.Verify(
-            x => x.AddAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>()),
+            x => x.Add(It.IsAny<Category>(), It.IsAny<CancellationToken>()),
             Times.Once);
 
         _unitOfWork.Verify(
@@ -84,7 +84,7 @@ public class CreateCategoryCommandHandlerTests
         result.IsFailure.Should().BeTrue();
 
         _categoryRepository.Verify(
-            x => x.AddAsync(It.IsAny<Category>(), It.IsAny<CancellationToken>()),
+            x => x.Add(It.IsAny<Category>(), It.IsAny<CancellationToken>()),
             Times.Never);
 
         _unitOfWork.Verify(
