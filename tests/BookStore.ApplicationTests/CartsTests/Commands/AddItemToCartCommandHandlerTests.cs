@@ -83,7 +83,7 @@ public class AddItemToCartCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
 
-        _cartRepository.Verify(x => x.AddAsync(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Once);
+        _cartRepository.Verify(x => x.Add(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -130,7 +130,7 @@ public class AddItemToCartCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
 
-        _cartRepository.Verify(x => x.AddAsync(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Once);
+        _cartRepository.Verify(x => x.Add(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

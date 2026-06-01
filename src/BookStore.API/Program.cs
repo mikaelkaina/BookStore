@@ -106,7 +106,7 @@ static async Task SeedRoleAsync(IServiceProvider services, IConfiguration config
 
     if (customerResult.IsSuccess)
     {
-        await customerRepository.AddAsync(customerResult.Value);
+        customerRepository.Add(customerResult.Value);
         await unitOfWork.SaveChangesAsync();
 
         var adminUser = new ApplicationUser

@@ -63,7 +63,7 @@ public class CreateOrderCommandHandlerTests
 
         result.IsSuccess.Should().BeTrue();
 
-        _orderRepository.Verify(x => x.AddAsync(It.IsAny<Order>(), It.IsAny<CancellationToken>()), Times.Once);
+        _orderRepository.Verify(x => x.Add(It.IsAny<Order>(), It.IsAny<CancellationToken>()), Times.Once);
         _bookRepository.Verify(x => x.UpdateAsync(book, It.IsAny<CancellationToken>()), Times.Once);
         _unitOfWork.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
