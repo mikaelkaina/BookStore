@@ -13,17 +13,17 @@ public class OrderBuilder
 
     private readonly List<(int quantity, decimal price)> _items = [];
 
-    public OrderBuilder WithCustomerId(Guid customerId)
-    {
-        _customerId = customerId;
-        return this;
-    }
+    //public OrderBuilder WithCustomerId(Guid customerId)
+    //{
+    //    _customerId = customerId;
+    //    return this;
+    //}
 
-    public OrderBuilder WithShippingAddress(Address address)
-    {
-        _shippingAddress = address;
-        return this;
-    }
+    //public OrderBuilder WithShippingAddress(Address address)
+    //{
+    //    _shippingAddress = address;
+    //    return this;
+    //}
 
     public OrderBuilder WithStatus(OrderStatus status)
     {

@@ -56,7 +56,7 @@ public class CreateOrderCommandHandlerTests
             .ReturnsAsync(customer);
 
         _bookRepository
-            .Setup(x => x.GetByIdAsync(book.Id, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdForUpdateAsync(book.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(book);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -132,7 +132,7 @@ public class CreateOrderCommandHandlerTests
             .ReturnsAsync(customer);
 
         _bookRepository
-            .Setup(x => x.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdForUpdateAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Book?)null);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -163,7 +163,7 @@ public class CreateOrderCommandHandlerTests
             .ReturnsAsync(customer);
 
         _bookRepository
-            .Setup(x => x.GetByIdAsync(book.Id, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdForUpdateAsync(book.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(book);
 
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -194,7 +194,7 @@ public class CreateOrderCommandHandlerTests
             .ReturnsAsync(customer);
 
         _bookRepository
-            .Setup(x => x.GetByIdAsync(book.Id, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetByIdForUpdateAsync(book.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(book);
 
         book.DecrementStock(1);
