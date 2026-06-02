@@ -23,17 +23,17 @@ public class CustomerBuilder
         _birthDate = DateOnly.FromDateTime(_faker.Date.Past(30, DateTime.Now.AddYears(-18)));
     }
 
-    public CustomerBuilder WithFirstName(string firstName) { _firstName = firstName; return this; }
-    public CustomerBuilder WithLastName(string lastName) { _lastName = lastName; return this; }
-    public CustomerBuilder WithEmail(string email) { _email = email; return this; }
-    public CustomerBuilder WithPhone(string phone) { _phone = phone; return this; }
-    public CustomerBuilder WithBirthDate(DateOnly birthDate) { _birthDate = birthDate; return this; }
+    //public CustomerBuilder WithFirstName(string firstName) { _firstName = firstName; return this; }
+    //public CustomerBuilder WithLastName(string lastName) { _lastName = lastName; return this; }
+    //public CustomerBuilder WithEmail(string email) { _email = email; return this; }
+    //public CustomerBuilder WithPhone(string phone) { _phone = phone; return this; }
+    //public CustomerBuilder WithBirthDate(DateOnly birthDate) { _birthDate = birthDate; return this; }
 
-    public CustomerBuilder WithDocument(string document)
-    {
-        _document = document ?? "12345678909";
-        return this;
-    }
+    //public CustomerBuilder WithDocument(string document)
+    //{
+    //    _document = document ?? "12345678909";
+    //    return this;
+    //}
 
     public Customer Build()
     {
