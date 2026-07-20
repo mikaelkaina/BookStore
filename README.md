@@ -12,7 +12,6 @@ O backend segue Clean Architecture com DDD e o frontend é uma
 SPA em React com TypeScript.
 
 > 🌐 **[Acesse a aplicação](https://lively-ground-003697b0f.7.azurestaticapps.net)**
-> 📡 **[API](bookstore-f4btctchfmcvgzcu.southcentralus-01.azurewebsites.net/scalar)**
 
 ---
 
