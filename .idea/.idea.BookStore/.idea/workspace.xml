@@ -13,7 +13,9 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="" />
+    <list default="true" id="e31f57c8-c8f1-468e-8128-229ce43ff9ad" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,6 +123,11 @@
       <workItem from="1779212778982" duration="2525000" />
       <workItem from="1779217046945" duration="444000" />
       <workItem from="1779289784157" duration="12000" />
+      <workItem from="1780488473682" duration="2242000" />
+      <workItem from="1780517578524" duration="2000" />
+      <workItem from="1780517596333" duration="1888000" />
+      <workItem from="1780537990990" duration="1307000" />
+      <workItem from="1780551905983" duration="161000" />
     </task>
     <task id="LOCAL-00001" summary="liberação do gerenciamento de cart para guest">
       <option name="closed" value="true" />
