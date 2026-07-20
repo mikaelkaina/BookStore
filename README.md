@@ -11,8 +11,8 @@ arquitetura limpa, domínio rico e boas práticas de mercado.
 O backend segue Clean Architecture com DDD e o frontend é uma
 SPA em React com TypeScript.
 
-> 🌐 **[Acesse a aplicação](https://jolly-flower-02868870f.7.azurestaticapps.net/)**
-> 📡 **[API](bookstore-f4btctchfmcvgzcu.brazilsouth-01.azurewebsites.net/scalar)**
+> 🌐 **[Acesse a aplicação](https://lively-ground-003697b0f.7.azurestaticapps.net)**
+> 📡 **[API](bookstore-f4btctchfmcvgzcu.southcentralus-01.azurewebsites.net/scalar)**
 
 ---
 
