@@ -1,5 +1,4 @@
-﻿using BookStore.Domain.Common;
-using BookStore.Domain.ValueObjects;
+﻿using BookStore.Domain.ValueObjects;
 
 namespace BookStore.Domain.Events;
 

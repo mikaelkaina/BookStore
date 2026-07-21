@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Common;
 
-namespace BookStore.Domain.Interfaces;
+namespace BookStore.Domain.Interfaces.Repositories;
 
 public interface IRepository<TEntity> where TEntity : Entity
 {

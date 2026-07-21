@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Features.Customers.Commands.RegisterCustomer;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Domain.ValueObjects;
 using FluentAssertions;
 using Moq;

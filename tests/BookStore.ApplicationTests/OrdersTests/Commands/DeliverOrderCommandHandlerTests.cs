@@ -3,6 +3,7 @@ using BookStore.ApplicationTests.Builders;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 

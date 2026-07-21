@@ -1,4 +1,5 @@
 ﻿using BookStore.Domain.Common;
+using BookStore.Domain.Events;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

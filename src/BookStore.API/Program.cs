@@ -2,6 +2,7 @@ using BookStore.API.Middleware;
 using BookStore.Application;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Infrastructure;
 using BookStore.Infrastructure.Identity;
 using BookStore.Infrastructure.Persistence;

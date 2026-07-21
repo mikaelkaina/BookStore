@@ -1,5 +1,5 @@
 ﻿using BookStore.Domain.Entities;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 

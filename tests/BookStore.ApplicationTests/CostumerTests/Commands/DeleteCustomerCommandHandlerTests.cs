@@ -1,6 +1,7 @@
 ﻿using BookStore.Application.Features.Customers.Commands.DeleteCustomer;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 

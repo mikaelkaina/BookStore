@@ -2,6 +2,7 @@
 using BookStore.Application.Features.Books.Commands.CreateBook;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 

@@ -1,7 +1,7 @@
 ﻿using BookStore.Application.Features.Books.Queries.GetBookById;
 using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 

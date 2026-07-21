@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Entities;
 
-namespace BookStore.Domain.Interfaces;
+namespace BookStore.Domain.Interfaces.Repositories;
 
 public interface ICartRepository : IRepository<Cart>
 {

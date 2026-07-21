@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Infrastructure.Identity;
 using BookStore.Infrastructure.Interceptors;
 using BookStore.Infrastructure.Persistence;

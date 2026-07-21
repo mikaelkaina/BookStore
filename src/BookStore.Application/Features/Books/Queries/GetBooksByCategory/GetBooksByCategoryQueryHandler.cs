@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Common;
 using BookStore.Domain.Entities;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace BookStore.Application.Features.Books.Queries.GetBooksByCategory;

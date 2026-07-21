@@ -1,6 +1,6 @@
 ﻿using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Persistence.Repositories;
