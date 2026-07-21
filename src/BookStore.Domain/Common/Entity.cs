@@ -1,4 +1,6 @@
-﻿namespace BookStore.Domain.Common;
+﻿using BookStore.Domain.Events;
+
+namespace BookStore.Domain.Common;
 
 public abstract class Entity
 {

@@ -1,5 +1,6 @@
 ﻿using BookStore.Domain.Common;
 using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Infrastructure.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

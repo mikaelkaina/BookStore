@@ -1,7 +1,7 @@
 ﻿using BookStore.Domain.Entities;
 using BookStore.Domain.Enums;
 
-namespace BookStore.Domain.Interfaces;
+namespace BookStore.Domain.Interfaces.Repositories;
 
 public interface IOrderRepository : IRepository<Order>
 {

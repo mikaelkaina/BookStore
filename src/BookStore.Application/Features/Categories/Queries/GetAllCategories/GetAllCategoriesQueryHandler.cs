@@ -1,5 +1,5 @@
 ﻿using BookStore.Domain.Common;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace BookStore.Application.Features.Categories.Queries.GetAllCategories;

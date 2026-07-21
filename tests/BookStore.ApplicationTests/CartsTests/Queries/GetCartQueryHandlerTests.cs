@@ -1,6 +1,6 @@
 ﻿using BookStore.Application.Features.Carts.Queries.GetCart;
 using BookStore.Domain.Entities;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 

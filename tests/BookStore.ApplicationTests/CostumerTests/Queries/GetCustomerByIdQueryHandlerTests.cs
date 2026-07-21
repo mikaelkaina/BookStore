@@ -1,6 +1,6 @@
 ﻿using BookStore.Application.Features.Customers.Queries.GetCustomerById;
 using BookStore.Domain.Entities;
-using BookStore.Domain.Interfaces;
+using BookStore.Domain.Interfaces.Repositories;
 using FluentAssertions;
 using Moq;
 
