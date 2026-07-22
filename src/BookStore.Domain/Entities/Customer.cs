@@ -91,6 +91,6 @@ public sealed class Customer : Entity
 public static class CustomerErrors
 {
     public static Error NotFound(Guid id) => Error.NotFound(nameof(Customer), id);
-    public static Error EmailAlreadyExixts(string email) =>
+    public static Error EmailAlreadyExists(string email) =>
         new("Customer.Email.AlreadyExists", $"A customer with the email '{email}' already exists.");
 }
