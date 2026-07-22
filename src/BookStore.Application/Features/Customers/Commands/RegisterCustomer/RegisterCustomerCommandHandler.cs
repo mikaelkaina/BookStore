@@ -34,7 +34,7 @@ public sealed class RegisterCustomerCommandHandler
 
         if (emailExists)
             return Result.Failure<RegisterCustomerResponse>(
-                CustomerErrors.EmailAlreadyExixts(request.Email));
+                CustomerErrors.EmailAlreadyExists(request.Email));
 
         var customerResult = Customer.Create(
             request.FirstName,

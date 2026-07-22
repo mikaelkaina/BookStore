@@ -8,9 +8,3 @@ public enum BookFormat
     Audiobook = 4
 }
 
-public enum CustomerRole
-{
-    Customer = 1,
-    Admin = 2
-}
-

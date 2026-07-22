@@ -52,20 +52,20 @@ public sealed class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasConversion<string>()
             .HasMaxLength(20);
 
-        builder.OwnsMany(c => c.Addresses, adress =>
+        builder.OwnsMany(c => c.Addresses, address =>
         {
-            adress.ToTable("CustomerAddresses");
+            address.ToTable("CustomerAddresses");
 
-            adress.WithOwner().HasForeignKey("CustomerId");
+            address.WithOwner().HasForeignKey("CustomerId");
 
-            adress.Property(a => a.Street).IsRequired().HasMaxLength(200);
-            adress.Property(a => a.Number).IsRequired().HasMaxLength(10);
-            adress.Property(a => a.Complement).HasMaxLength(100);
-            adress.Property(a => a.Neighborhood).IsRequired().HasMaxLength(100);
-            adress.Property(a => a.City).IsRequired().HasMaxLength(100);
-            adress.Property(a => a.State).IsRequired().HasMaxLength(2);
-            adress.Property(a => a.ZipCode).IsRequired().HasMaxLength(8);
-            adress.Property(a => a.Country).IsRequired().HasMaxLength(50);
+            address.Property(a => a.Street).IsRequired().HasMaxLength(200);
+            address.Property(a => a.Number).IsRequired().HasMaxLength(10);
+            address.Property(a => a.Complement).HasMaxLength(100);
+            address.Property(a => a.Neighborhood).IsRequired().HasMaxLength(100);
+            address.Property(a => a.City).IsRequired().HasMaxLength(100);
+            address.Property(a => a.State).IsRequired().HasMaxLength(2);
+            address.Property(a => a.ZipCode).IsRequired().HasMaxLength(8);
+            address.Property(a => a.Country).IsRequired().HasMaxLength(50);
         });
 
         builder.Ignore(c => c.Orders);
