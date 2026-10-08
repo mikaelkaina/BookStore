@@ -104,6 +104,8 @@ public sealed class Order : Entity
         return Result.Success();
     }
 
+    //order.Status = OrderStatus.StartProcessing
+
     public Result StartProcessing()
     {
         if (Status != OrderStatus.PaymentConfirmed)

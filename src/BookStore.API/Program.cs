@@ -21,7 +21,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://lively-ground-003697b0f.7.azurestaticapps.net")
+        policy.WithOrigins("https://lively-ground-003697b0f.7.azurestaticapps.net",
+        "http://localhost:5173")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
