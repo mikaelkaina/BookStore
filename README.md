@@ -15,21 +15,19 @@ SPA em React com TypeScript.
 
 ---
 
-##  Screenshots
-
 | Listagem de Livros | Detalhes do Livro |
 -----
-![image alt](https://github.com/mikaelkaina/BookStore/blob/master/images/Captura%20de%20tela%202026-05-12%20161958.png?raw=true)
+![image alt](https://github.com/mikaelkaina/BookStore/blob/main/images/Captura%20de%20tela%202026-05-12%20161958.png?raw=true)
 -----
-![image alt](https://github.com/mikaelkaina/BookStore/blob/master/images/Captura%20de%20tela%202026-05-12%20162614.png?raw=true)
+![image alt](https://github.com/mikaelkaina/BookStore/blob/main/images/Captura%20de%20tela%202026-05-12%20162614.png?raw=true)
 
 ------
 
 | Carrinho | Pedido |
 -----
-![image alt](https://github.com/mikaelkaina/BookStore/blob/master/images/Captura%20de%20tela%202026-05-12%20164800.png?raw=true)
+![image alt](https://github.com/mikaelkaina/BookStore/blob/main/images/Captura%20de%20tela%202026-05-12%20164800.png?raw=true)
 -----
-![image alt](https://github.com/mikaelkaina/BookStore/blob/master/images/Captura%20de%20tela%202026-05-12%20164733.png?raw=true)
+![image alt](https://github.com/mikaelkaina/BookStore/blob/main/images/Captura%20de%20tela%202026-05-12%20164733.png?raw=true)
 
 ---
 
