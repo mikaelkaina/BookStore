@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using BookStore.Application.Common.Abstractions.Interfaces;
 using BookStore.Domain.Interfaces;
 using BookStore.Domain.Interfaces.Repositories;
 using BookStore.Infrastructure.Identity;
@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BookStore.Infrastructure;
 
@@ -45,7 +46,9 @@ public static class DependencyInjection
 
         var jwtSettings = configuration.GetSection("JwtSettings");
         services.Configure<JwtSettings>(jwtSettings);
-        services.AddScoped<JwtService>();
+
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
         var secret = jwtSettings["Secret"]!;
         services.AddAuthentication(options =>
