@@ -1,62 +1,40 @@
-﻿using BookStore.Domain.Common;
-using BookStore.Infrastructure.Identity;
+﻿using BookStore.Application.Common.Abstractions.Interfaces;
+using BookStore.Domain.Common;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
+
 namespace BookStore.Application.Features.Auth.Commands.RefreshToken;
 
 public sealed class RefreshTokenCommandHandler
     : IRequestHandler<RefreshTokenCommand, Result<AuthResponse>>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly JwtService _jwtService;
+    private readonly IIdentityService _identityService;
+    private readonly ITokenService _tokenService;
 
     public RefreshTokenCommandHandler(
-        UserManager<ApplicationUser> userManager,
-        JwtService jwtService)
+        IIdentityService identityService, 
+        ITokenService tokenService)
     {
-        _userManager = userManager;
-        _jwtService = jwtService;
+        _identityService = identityService;
+        _tokenService = tokenService;
     }
 
     public async Task<Result<AuthResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var principal = _jwtService.GetPrincipalFromExpiredToken(request.AccessToken);
-        if (principal is null)
-            return Result.Failure<AuthResponse>(
-                new Error("Auth.InvalidToken", "Invalid access token."));
-
-        var userId = principal.FindFirst(
-            System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
-
+        var userId = _tokenService.GetUserIdFromExpiredToken(request.AccessToken);
         if (userId is null)
-            return Result.Failure<AuthResponse>(
-                new Error("Auth.InvalidToken", "Invalid token claims."));
+            return Result.Failure<AuthResponse>(new Error("Auth.InvalidToken", "Invalid access token."));
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _identityService.FindByIdAsync(userId);
         if (user is null ||
             user.RefreshToken != request.RefreshToken ||
             user.RefreshTokenExpiresAt < DateTime.UtcNow)
-            return Result.Failure<AuthResponse>(
-                new Error("Auth.InvalidRefreshToken",
-                    "Refresh token is invalid or expired."));
+            return Result.Failure<AuthResponse>(new Error("Auth.InvalidRefreshToken",
+                "Refresh token is invalid or expired."));
 
-        var roles = await _userManager.GetRolesAsync(user);
-        var newAccessToken = _jwtService.GenerateAccessToken(user, roles);
-        var newRefreshToken = _jwtService.GenerateRefreshToken();
+        var newAccessToken = _tokenService.GenerateAccessToken(user);
+        var newRefreshToken = _tokenService.GenerateRefreshToken();
+        await _identityService.SetRefreshTokenAsync(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(7));
 
-        user.RefreshToken = newRefreshToken;
-        user.RefreshTokenExpiresAt = DateTime.UtcNow.AddDays(7);
-        await _userManager.UpdateAsync(user);
-
-        return Result.Success(new AuthResponse(
-            newAccessToken,
-            newRefreshToken,
-            DateTime.UtcNow.AddMinutes(15),
-            user.Id,
-            user.Email!,
-            user.FirstName,
-            user.LastName,
-            user.CustomerId,
-            roles));
+        return Result.Success(AuthResponse.From(user, newAccessToken, newRefreshToken));
     }
 }

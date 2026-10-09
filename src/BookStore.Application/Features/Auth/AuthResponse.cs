@@ -1,4 +1,6 @@
-﻿namespace BookStore.Application.Features.Auth;
+﻿using BookStore.Application.Common.Abstractions;
+
+namespace BookStore.Application.Features.Auth;
 
 public sealed record AuthResponse(
     string AccessToken,
@@ -9,5 +11,16 @@ public sealed record AuthResponse(
     string FirstName,
     string LastName,
     Guid? CustomerId,
-    IEnumerable<string> Roles
-);
+    IEnumerable<string> Roles)
+{
+    public static AuthResponse From(AuthUser user, string accessToken, string refreshToken) => new(
+        accessToken,
+        refreshToken,
+        DateTime.UtcNow.AddMinutes(15),
+        user.Id,
+        user.Email,
+        user.FirstName,
+        user.LastName,
+        user.CustomerId,
+        user.Roles);
+}

@@ -1,65 +1,45 @@
-﻿using BookStore.Domain.Common;
+﻿using BookStore.Application.Common.Abstractions.Interfaces;
+using BookStore.Domain.Common;
 using BookStore.Domain.Interfaces;
 using BookStore.Domain.Interfaces.Repositories;
-using BookStore.Infrastructure.Identity;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Application.Features.Auth.Commands.Login;
 
 public sealed class LoginCommandHandler
     : IRequestHandler<LoginCommand, Result<AuthResponse>>
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly JwtService _jwtService;
+    private readonly IIdentityService _identityService;
+    private readonly ITokenService _tokenService;
     private readonly ICartRepository _cartRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public LoginCommandHandler(
-        UserManager<ApplicationUser> userManager,
-        JwtService jwtService,
+        IIdentityService identityService,
+        ITokenService tokenService,
         ICartRepository cartRepository,
         IUnitOfWork unitOfWork)
     {
-        _userManager = userManager;
-        _jwtService = jwtService;
+        _identityService = identityService;
+        _tokenService = tokenService;
         _cartRepository = cartRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<AuthResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(request.Email);
+        var user = await _identityService.ValidateCredentialsAsync(request.Email, request.Password);
         if (user is null)
-            return Result.Failure<AuthResponse>(
-                Error.InvalidCredentials());
-
-        var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
-        if (!isPasswordValid)
-            return Result.Failure<AuthResponse>(
-                Error.InvalidCredentials());
+            return Result.Failure<AuthResponse>(Error.InvalidCredentials());
 
         if (!string.IsNullOrEmpty(request.GuestSessionId) && user.CustomerId.HasValue)
             await MergeGuestCartAsync(request.GuestSessionId, user.CustomerId.Value, cancellationToken);
 
-        var roles = await _userManager.GetRolesAsync(user);
-        var accessToken = _jwtService.GenerateAccessToken(user, roles);
-        var refreshToken = _jwtService.GenerateRefreshToken();
+        var accessToken = _tokenService.GenerateAccessToken(user);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+        await _identityService.SetRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7));
 
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiresAt = DateTime.UtcNow.AddDays(7);
-        await _userManager.UpdateAsync(user);
-
-        return Result.Success(new AuthResponse(
-            accessToken,
-            refreshToken,
-            DateTime.UtcNow.AddMinutes(15),
-            user.Id,
-            user.Email!,
-            user.FirstName,
-            user.LastName,
-            user.CustomerId,
-            roles));
+        return Result.Success(AuthResponse.From(user, accessToken, refreshToken));
     }
 
     private async Task MergeGuestCartAsync(

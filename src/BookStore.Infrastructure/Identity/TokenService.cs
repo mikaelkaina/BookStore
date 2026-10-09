@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using BookStore.Application.Common.Abstractions;
+using BookStore.Application.Common.Abstractions.Interfaces;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -7,18 +9,19 @@ using System.Text;
 
 namespace BookStore.Infrastructure.Identity;
 
-public sealed class JwtService
+public sealed class TokenService : ITokenService
 {
     private readonly JwtSettings _settings;
-    public JwtService(IOptions<JwtSettings> settings)
+
+    public TokenService(IOptions<JwtSettings> settings)
         => _settings = settings.Value;
 
-    public string GenerateAccessToken(ApplicationUser user, IList<string> roles)
+    public string GenerateAccessToken(AuthUser user)
     {
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
-            new(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.Email, user.Email),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new("firstName", user.FirstName),
             new("lastName", user.LastName)
@@ -27,7 +30,7 @@ public sealed class JwtService
         if (user.CustomerId.HasValue)
             claims.Add(new Claim("customerId", user.CustomerId.Value.ToString()));
 
-        foreach (var role in roles)
+        foreach (var role in user.Roles)
             claims.Add(new Claim(ClaimTypes.Role, role));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Secret));
@@ -52,7 +55,7 @@ public sealed class JwtService
         return Convert.ToBase64String(bytes);
     }
 
-    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
+    public string? GetUserIdFromExpiredToken(string accessToken)
     {
         var parameters = new TokenValidationParameters
         {
@@ -66,15 +69,23 @@ public sealed class JwtService
                 Encoding.UTF8.GetBytes(_settings.Secret)),
         };
 
-        var handler = new JwtSecurityTokenHandler();
-        var principal = handler.ValidateToken(token, parameters, out var securityToken);
+        try
+        {
+            var principal = new JwtSecurityTokenHandler()
+                .ValidateToken(accessToken, parameters, out var securityToken);
 
-        if (securityToken is not JwtSecurityToken jwtToken ||
-            !jwtToken.Header.Alg.Equals(
-                SecurityAlgorithms.HmacSha256,
-                StringComparison.InvariantCultureIgnoreCase))
+            if (securityToken is not JwtSecurityToken jwtToken ||
+                !jwtToken.Header.Alg.Equals(
+                    SecurityAlgorithms.HmacSha256,
+                    StringComparison.InvariantCultureIgnoreCase))
+                return null;
+
+            return principal.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                ?? principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+        }
+        catch (SecurityTokenException)
+        {
             return null;
-
-        return principal;
+        }
     }
 }
